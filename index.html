@@ -1,0 +1,918 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="Sunnyside">
+  <title>Drink Tracker</title>
+  <style>
+    :root {
+      --primary-blue: #2394f9;
+      --card-blue: #ebf5ff;
+      --stepper-blue: #32a1fd;
+      --sun-yellow: #f8be28;
+      --dry-green: #93c942;
+      --card-green: #eef7e6;
+      --text-dark: #1f2937;
+      --text-muted: #64748b;
+      --border-gray: #e2e8f0;
+      --safe-top: env(safe-area-inset-top, 20px);
+      --safe-bottom: env(safe-area-inset-bottom, 20px);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      -webkit-tap-highlight-color: transparent;
+      user-select: none;
+    }
+
+    body {
+      background-color: #f8fafc;
+      color: var(--text-dark);
+      padding-bottom: calc(var(--safe-bottom) + 20px);
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    .header-bg {
+      background: linear-gradient(180deg, #1b8bf5 0%, var(--primary-blue) 100%);
+      padding: calc(var(--safe-top) + 12px) 18px 24px 18px;
+      color: white;
+      border-bottom-left-radius: 28px;
+      border-bottom-right-radius: 28px;
+      box-shadow: 0 4px 16px rgba(35, 148, 249, 0.25);
+    }
+
+    .top-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 18px;
+    }
+
+    .logo-area {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 26px;
+      font-weight: 800;
+      letter-spacing: -0.5px;
+    }
+
+    .header-badges {
+      display: flex;
+      gap: 6px;
+    }
+
+    .header-badge {
+      background: rgba(255, 255, 255, 0.2);
+      border: 1px solid rgba(255, 255, 255, 0.4);
+      padding: 5px 10px;
+      border-radius: 20px;
+      font-size: 11px;
+      font-weight: 700;
+      color: white;
+      cursor: pointer;
+    }
+
+    .view-toggle {
+      background: rgba(0, 0, 0, 0.12);
+      border-radius: 30px;
+      display: flex;
+      padding: 3px;
+    }
+
+    .toggle-btn {
+      flex: 1;
+      text-align: center;
+      padding: 10px 0;
+      border-radius: 25px;
+      font-size: 15px;
+      font-weight: 700;
+      color: white;
+      border: none;
+      background: transparent;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      transition: all 0.2s ease;
+    }
+
+    .toggle-btn.active {
+      background: var(--sun-yellow);
+      color: #3b2c04;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+    }
+
+    .content-area {
+      padding: 16px;
+      max-width: 480px;
+      margin: 0 auto;
+    }
+
+    .day-strip {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin: 4px 0 16px 0;
+      gap: 4px;
+    }
+
+    .nav-arrow {
+      background: none;
+      border: none;
+      font-size: 18px;
+      color: var(--text-muted);
+      cursor: pointer;
+      padding: 4px;
+    }
+
+    .strip-items {
+      display: flex;
+      justify-content: space-between;
+      flex: 1;
+      gap: 4px;
+    }
+
+    .strip-col {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 6px;
+      cursor: pointer;
+      flex: 1;
+    }
+
+    .day-label {
+      font-size: 11px;
+      font-weight: 700;
+      color: var(--text-muted);
+    }
+
+    .day-badge {
+      width: 38px;
+      height: 38px;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      font-size: 15px;
+      background: #f1f5f9;
+      color: var(--text-muted);
+      border: 1.5px solid transparent;
+      transition: all 0.15s ease;
+    }
+
+    .day-badge.active-selected {
+      border: 2px solid var(--primary-blue);
+      background: white;
+      color: var(--primary-blue);
+    }
+
+    .day-badge.zero-drink {
+      background: var(--dry-green);
+      color: white;
+    }
+
+    .day-badge.had-drinks {
+      background: #1e40af;
+      color: white;
+    }
+
+    .selected-indicator {
+      width: 0;
+      height: 0;
+      border-left: 5px solid transparent;
+      border-right: 5px solid transparent;
+      border-top: 5px solid var(--primary-blue);
+      margin-top: -3px;
+      visibility: hidden;
+    }
+
+    .strip-col.selected .selected-indicator {
+      visibility: visible;
+    }
+
+    .day-card {
+      background: white;
+      border-radius: 24px;
+      padding: 24px 20px 0 20px;
+      border: 1px solid var(--border-gray);
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.04);
+      text-align: center;
+      overflow: hidden;
+    }
+
+    .day-card-title {
+      font-size: 24px;
+      font-weight: 800;
+      margin-bottom: 4px;
+    }
+
+    .day-card-date {
+      color: var(--text-muted);
+      font-size: 14px;
+      font-weight: 500;
+      margin-bottom: 30px;
+    }
+
+    .stepper-container {
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: #90cdff;
+      border-radius: 16px;
+      height: 80px;
+      padding: 0 8px;
+      margin-bottom: 32px;
+    }
+
+    .stepper-btn {
+      width: 60px;
+      height: 60px;
+      border: none;
+      background: transparent;
+      color: white;
+      font-size: 40px;
+      font-weight: 300;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+    }
+
+    .stepper-center {
+      position: absolute;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 120px;
+      height: 120px;
+      background: white;
+      border-radius: 50%;
+      box-shadow: 0 6px 16px rgba(0, 0, 0, 0.1);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .stepper-num {
+      font-size: 40px;
+      font-weight: 800;
+      color: var(--text-dark);
+      line-height: 1;
+    }
+
+    .stepper-label {
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--text-muted);
+      margin-top: 4px;
+    }
+
+    .card-footer-plan {
+      background: #e2f1ff;
+      margin: 0 -20px;
+      padding: 16px 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-weight: 700;
+      font-size: 14px;
+      color: var(--text-dark);
+      cursor: pointer;
+    }
+
+    .week-nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 16px;
+    }
+
+    .week-nav-title {
+      font-size: 18px;
+      font-weight: 800;
+    }
+
+    .week-cards-row {
+      display: flex;
+      gap: 12px;
+      margin-bottom: 24px;
+    }
+
+    .summary-card {
+      flex: 1;
+      border-radius: 20px;
+      overflow: hidden;
+      border: 1px solid var(--border-gray);
+      background: white;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .summary-card-header {
+      padding: 8px;
+      text-align: center;
+      font-size: 11px;
+      font-weight: 800;
+      letter-spacing: 0.5px;
+      color: white;
+    }
+
+    .summary-card.drinks-card .summary-card-header {
+      background: var(--stepper-blue);
+    }
+
+    .summary-card.dry-card .summary-card-header {
+      background: var(--dry-green);
+    }
+
+    .summary-card-body {
+      padding: 16px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      background: white;
+      flex: 1;
+    }
+
+    .ring-wrapper {
+      position: relative;
+      width: 100px;
+      height: 100px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+    }
+
+    .ring-val {
+      font-size: 28px;
+      font-weight: 800;
+      line-height: 1;
+    }
+
+    .ring-label {
+      font-size: 11px;
+      color: var(--text-muted);
+      margin-top: 2px;
+      font-weight: 600;
+    }
+
+    .summary-card-footer {
+      padding: 10px 12px;
+      font-size: 12px;
+      font-weight: 700;
+    }
+
+    .drinks-card .summary-card-footer {
+      background: var(--card-blue);
+      color: #0369a1;
+    }
+
+    .dry-card .summary-card-footer {
+      background: var(--card-green);
+      color: #3f6212;
+    }
+
+    .section-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 12px;
+    }
+
+    .section-title {
+      font-size: 17px;
+      font-weight: 800;
+    }
+
+    .btn-update-plan {
+      background: none;
+      border: 1px solid var(--border-gray);
+      border-radius: 12px;
+      padding: 6px 12px;
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--text-dark);
+      cursor: pointer;
+    }
+
+    .breakdown-table {
+      background: white;
+      border-radius: 18px;
+      border: 1px solid var(--border-gray);
+      overflow: hidden;
+    }
+
+    .breakdown-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 12px 16px;
+      border-bottom: 1px solid #f1f5f9;
+    }
+
+    .breakdown-row:last-child {
+      border-bottom: none;
+    }
+
+    .breakdown-row.current-today {
+      background: #f0f7ff;
+      border-left: 4px solid var(--primary-blue);
+    }
+
+    .day-name {
+      font-size: 13px;
+      font-weight: 800;
+      width: 45px;
+    }
+
+    .row-counter {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .mini-btn {
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      border: 1px solid var(--border-gray);
+      background: white;
+      font-size: 16px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--text-muted);
+      cursor: pointer;
+    }
+
+    .mini-badge {
+      width: 34px;
+      height: 34px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      font-size: 14px;
+    }
+
+    .row-plan {
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--text-muted);
+      width: 40px;
+      text-align: right;
+    }
+
+    .modal {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(0, 0, 0, 0.4);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      z-index: 100;
+      padding: 16px;
+    }
+
+    .modal-box {
+      background: white;
+      border-radius: 20px;
+      padding: 20px;
+      max-width: 340px;
+      width: 100%;
+    }
+
+    .modal-box h3 {
+      margin-bottom: 12px;
+      font-size: 18px;
+    }
+
+    .modal-input {
+      width: 100%;
+      padding: 10px;
+      font-size: 18px;
+      border-radius: 10px;
+      border: 1px solid var(--border-gray);
+      margin-bottom: 16px;
+      text-align: center;
+    }
+
+    .modal-actions {
+      display: flex;
+      gap: 8px;
+    }
+
+    .modal-btn {
+      flex: 1;
+      padding: 10px;
+      border-radius: 10px;
+      font-weight: 700;
+      border: none;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="header-bg">
+    <div class="top-bar">
+      <div class="logo-area">
+        <span style="font-size: 20px;">☀️</span> sunnyside
+      </div>
+      <div class="header-badges">
+        <button class="header-badge" onclick="exportData()">💾 BACKUP</button>
+        <button class="header-badge" onclick="document.getElementById('importFile').click()">📂 RESTORE</button>
+        <input type="file" id="importFile" accept=".json" style="display:none;" onchange="importData(event)" />
+      </div>
+    </div>
+
+    <div class="view-toggle">
+      <button class="toggle-btn" id="btn-week" onclick="setView('week')">
+        📅 Week
+      </button>
+      <button class="toggle-btn active" id="btn-day" onclick="setView('day')">
+        ☀️ Day
+      </button>
+    </div>
+  </div>
+
+  <div class="content-area">
+
+    <!-- DAY VIEW -->
+    <div id="view-day">
+      <div class="day-strip">
+        <button class="nav-arrow" onclick="shiftWeek(-1)">‹</button>
+        <div class="strip-items" id="strip-container"></div>
+        <button class="nav-arrow" onclick="shiftWeek(1)">›</button>
+      </div>
+
+      <div class="day-card">
+        <div class="day-card-title" id="day-card-title">Today</div>
+        <div class="day-card-date" id="day-card-date">Loading...</div>
+
+        <div class="stepper-container">
+          <button class="stepper-btn" onclick="modifyDrinks(-1)">−</button>
+          <div class="stepper-center">
+            <div class="stepper-num" id="stepper-display">0</div>
+            <div class="stepper-label">Drinks</div>
+          </div>
+          <button class="stepper-btn" onclick="modifyDrinks(1)">+</button>
+        </div>
+
+        <div class="card-footer-plan" onclick="promptDailyPlan()">
+          <span>TODAY'S PLAN</span>
+          <span id="plan-display">0 drinks ✏️</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- WEEK VIEW -->
+    <div id="view-week" style="display: none;">
+      <div class="week-nav">
+        <button class="nav-arrow" onclick="shiftWeek(-1)">‹</button>
+        <div class="week-nav-title" id="week-range-label">This Week</div>
+        <button class="nav-arrow" onclick="shiftWeek(1)">›</button>
+      </div>
+
+      <div class="week-cards-row">
+        <!-- Drinks Summary -->
+        <div class="summary-card drinks-card">
+          <div class="summary-card-header" id="drinks-status-badge">ON TRACK ✓</div>
+          <div class="summary-card-body">
+            <div class="ring-wrapper">
+              <svg width="100" height="100">
+                <circle cx="50" cy="50" r="40" stroke="#f1f5f9" stroke-width="8" fill="none" />
+                <circle id="drinks-ring" cx="50" cy="50" r="40" stroke="#32a1fd" stroke-width="8" fill="none" stroke-linecap="round" stroke-dasharray="251.2" stroke-dashoffset="251.2" transform="rotate(-90 50 50)" />
+              </svg>
+              <div style="position: absolute; text-align: center;">
+                <div class="ring-val" id="week-drinks-sum">0</div>
+                <div class="ring-label">Drinks</div>
+              </div>
+            </div>
+          </div>
+          <div class="summary-card-footer" id="week-drinks-plan">0 drinks THIS WEEK'S PLAN</div>
+        </div>
+
+        <!-- Dry Days Summary -->
+        <div class="summary-card dry-card">
+          <div class="summary-card-header" id="dry-status-badge">ON TRACK ✓</div>
+          <div class="summary-card-body">
+            <div class="ring-wrapper">
+              <svg width="100" height="100">
+                <circle cx="50" cy="50" r="40" stroke="#f1f5f9" stroke-width="8" fill="none" />
+                <circle id="dry-ring" cx="50" cy="50" r="40" stroke="#93c942" stroke-width="8" fill="none" stroke-linecap="round" stroke-dasharray="251.2" stroke-dashoffset="251.2" transform="rotate(-90 50 50)" />
+              </svg>
+              <div style="position: absolute; text-align: center;">
+                <div class="ring-val" id="week-dry-sum">0</div>
+                <div class="ring-label">Dry Days</div>
+              </div>
+            </div>
+          </div>
+          <div class="summary-card-footer" id="week-dry-plan">0 dry days THIS WEEK'S PLAN</div>
+        </div>
+      </div>
+
+      <div class="section-header">
+        <div class="section-title">Daily Breakdown</div>
+        <button class="btn-update-plan" onclick="promptBulkPlan()">✏️ Update Plan</button>
+      </div>
+
+      <div class="breakdown-table" id="breakdown-rows"></div>
+    </div>
+  </div>
+
+  <div class="modal" id="planModal">
+    <div class="modal-box">
+      <h3 id="modalTitle">Set Drinks Plan</h3>
+      <input type="number" id="modalPlanInput" class="modal-input" min="0" max="20" />
+      <div class="modal-actions">
+        <button class="modal-btn" style="background: #e2e8f0;" onclick="closeModal()">Cancel</button>
+        <button class="modal-btn" style="background: var(--primary-blue); color: white;" onclick="saveModalPlan()">Save</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const STORAGE_KEY = 'sunnyside_local_data';
+    let appData = JSON.parse(localStorage.getItem(STORAGE_KEY)) || {
+      logs: {},
+      plans: {}
+    };
+
+    let activeView = 'day';
+    let selectedDate = new Date();
+    let weekOffset = 0;
+
+    function getMonday(d) {
+      d = new Date(d);
+      const day = d.getDay();
+      const diff = d.getDate() - day + (day === 0 ? -6 : 1);
+      return new Date(d.setDate(diff));
+    }
+
+    function formatDate(d) {
+      const year = d.getFullYear();
+      const month = String(d.getMonth() + 1).padStart(2, '0');
+      const day = String(d.getDate()).padStart(2, '0');
+      return `${year}-${month}-${day}`;
+    }
+
+    function saveState() {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(appData));
+    }
+
+    function setView(view) {
+      activeView = view;
+      document.getElementById('btn-day').classList.toggle('active', view === 'day');
+      document.getElementById('btn-week').classList.toggle('active', view === 'week');
+      document.getElementById('view-day').style.display = view === 'day' ? 'block' : 'none';
+      document.getElementById('view-week').style.display = view === 'week' ? 'block' : 'none';
+      render();
+    }
+
+    function shiftWeek(direction) {
+      weekOffset += direction;
+      selectedDate.setDate(selectedDate.getDate() + (direction * 7));
+      render();
+    }
+
+    function selectDate(dateStr) {
+      const parts = dateStr.split('-');
+      selectedDate = new Date(parts[0], parts[1] - 1, parts[2]);
+      render();
+    }
+
+    function modifyDrinks(delta, targetDateStr = null) {
+      const key = targetDateStr || formatDate(selectedDate);
+      const current = appData.logs[key] !== undefined ? appData.logs[key] : 0;
+      const next = Math.max(0, current + delta);
+      appData.logs[key] = next;
+      saveState();
+      render();
+    }
+
+    function render() {
+      const todayStr = formatDate(new Date());
+      const selectedStr = formatDate(selectedDate);
+      const baseMonday = getMonday(new Date());
+      baseMonday.setDate(baseMonday.getDate() + (weekOffset * 7));
+
+      const weekDays = [];
+      for (let i = 0; i < 7; i++) {
+        const d = new Date(baseMonday);
+        d.setDate(d.getDate() + i);
+        weekDays.push(d);
+      }
+
+      // Strip
+      const dayNames = ['M', 'T', 'W', 'T', 'F', 'S', 'S'];
+      const stripContainer = document.getElementById('strip-container');
+      stripContainer.innerHTML = '';
+
+      weekDays.forEach((d, idx) => {
+        const dStr = formatDate(d);
+        const logged = appData.logs[dStr];
+        const isSelected = dStr === selectedStr;
+
+        let badgeClass = 'day-badge';
+        let badgeContent = '-';
+
+        if (logged !== undefined) {
+          badgeContent = logged;
+          if (logged === 0) badgeClass += ' zero-drink';
+          else badgeClass += ' had-drinks';
+        }
+
+        if (isSelected) {
+          badgeClass += ' active-selected';
+          if (logged === undefined) badgeContent = '★';
+        }
+
+        const col = document.createElement('div');
+        col.className = `strip-col ${isSelected ? 'selected' : ''}`;
+        col.onclick = () => selectDate(dStr);
+        col.innerHTML = `
+          <div class="day-label">${dayNames[idx]}</div>
+          <div class="${badgeClass}">${badgeContent}</div>
+          <div class="selected-indicator"></div>
+        `;
+        stripContainer.appendChild(col);
+      });
+
+      // Day Card
+      const isToday = selectedStr === todayStr;
+      document.getElementById('day-card-title').innerText = isToday ? 'Today' : selectedDate.toLocaleDateString('en-US', { weekday: 'long' });
+      document.getElementById('day-card-date').innerText = selectedDate.toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' });
+
+      const dayDrinks = appData.logs[selectedStr] !== undefined ? appData.logs[selectedStr] : 0;
+      document.getElementById('stepper-display').innerText = dayDrinks;
+
+      const dayPlan = appData.plans[selectedStr] !== undefined ? appData.plans[selectedStr] : 0;
+      document.getElementById('plan-display').innerText = `${dayPlan} drinks ✏️`;
+
+      // Week View
+      let totalDrinks = 0;
+      let totalPlannedDrinks = 0;
+      let dryDaysCount = 0;
+      let plannedDryDays = 0;
+
+      const breakdownRows = document.getElementById('breakdown-rows');
+      breakdownRows.innerHTML = '';
+      const fullDayNames = ['MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT', 'SUN'];
+
+      weekDays.forEach((d, idx) => {
+        const dStr = formatDate(d);
+        const drinks = appData.logs[dStr];
+        const plan = appData.plans[dStr] !== undefined ? appData.plans[dStr] : 0;
+
+        totalPlannedDrinks += plan;
+        if (plan === 0) plannedDryDays++;
+
+        if (drinks !== undefined) {
+          totalDrinks += drinks;
+          if (drinks === 0) dryDaysCount++;
+        }
+
+        const row = document.createElement('div');
+        row.className = `breakdown-row ${dStr === todayStr ? 'current-today' : ''}`;
+
+        let badgeBg = '#f1f5f9';
+        let badgeColor = 'var(--text-muted)';
+        let displayVal = '-';
+
+        if (drinks !== undefined) {
+          displayVal = drinks;
+          if (drinks === 0) {
+            badgeBg = 'var(--dry-green)';
+            badgeColor = 'white';
+          } else {
+            badgeBg = '#1e40af';
+            badgeColor = 'white';
+          }
+        } else if (dStr === selectedStr) {
+          displayVal = '★';
+          badgeColor = 'var(--primary-blue)';
+        }
+
+        row.innerHTML = `
+          <div class="day-name">${fullDayNames[idx]}</div>
+          <div class="row-counter">
+            <button class="mini-btn" onclick="modifyDrinks(-1, '${dStr}')">−</button>
+            <div class="mini-badge" style="background: ${badgeBg}; color: ${badgeColor};">${displayVal}</div>
+            <button class="mini-btn" onclick="modifyDrinks(1, '${dStr}')">+</button>
+          </div>
+          <div class="row-plan">${plan} →</div>
+        `;
+        breakdownRows.appendChild(row);
+      });
+
+      document.getElementById('week-drinks-sum').innerText = totalDrinks;
+      document.getElementById('week-drinks-plan').innerText = `${totalPlannedDrinks} drinks THIS WEEK'S PLAN`;
+      document.getElementById('week-dry-sum').innerText = dryDaysCount;
+      document.getElementById('week-dry-plan').innerText = `${plannedDryDays} dry days THIS WEEK'S PLAN`;
+
+      const circumference = 251.2;
+      const drinkRatio = totalPlannedDrinks > 0 ? Math.min(totalDrinks / totalPlannedDrinks, 1) : 0;
+      document.getElementById('drinks-ring').style.strokeDashoffset = circumference - (circumference * drinkRatio);
+
+      const dryRatio = plannedDryDays > 0 ? Math.min(dryDaysCount / plannedDryDays, 1) : 0;
+      document.getElementById('dry-ring').style.strokeDashoffset = circumference - (circumference * dryRatio);
+
+      document.getElementById('drinks-status-badge').innerText = totalDrinks <= totalPlannedDrinks ? 'ON TRACK ✓' : 'OVER TARGET';
+      document.getElementById('dry-status-badge').innerText = dryDaysCount >= (plannedDryDays - (7 - weekDays.filter(d => d <= new Date()).length)) ? 'ON TRACK ✓' : 'NEEDS FOCUS';
+
+      const firstDayLabel = weekDays[0].toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
+      const lastDayLabel = weekDays[6].toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
+      document.getElementById('week-range-label').innerText = `${firstDayLabel} - ${lastDayLabel}`;
+    }
+
+    let targetPlanDate = null;
+    function promptDailyPlan() {
+      targetPlanDate = formatDate(selectedDate);
+      document.getElementById('modalTitle').innerText = `Target for ${targetPlanDate}`;
+      document.getElementById('modalPlanInput').value = appData.plans[targetPlanDate] !== undefined ? appData.plans[targetPlanDate] : 0;
+      document.getElementById('planModal').style.display = 'flex';
+    }
+
+    function promptBulkPlan() {
+      const target = prompt("Enter standard daily drink allowance for this week (e.g., 0 for dry days, 2 for weekends):", "0");
+      if (target !== null) {
+        const baseMonday = getMonday(new Date());
+        baseMonday.setDate(baseMonday.getDate() + (weekOffset * 7));
+        for (let i = 0; i < 7; i++) {
+          const d = new Date(baseMonday);
+          d.setDate(d.getDate() + i);
+          appData.plans[formatDate(d)] = parseInt(target, 10) || 0;
+        }
+        saveState();
+        render();
+      }
+    }
+
+    function saveModalPlan() {
+      const val = parseInt(document.getElementById('modalPlanInput').value, 10);
+      if (!isNaN(val) && targetPlanDate) {
+        appData.plans[targetPlanDate] = val;
+        saveState();
+      }
+      closeModal();
+      render();
+    }
+
+    function closeModal() {
+      document.getElementById('planModal').style.display = 'none';
+    }
+
+    function exportData() {
+      const blob = new Blob([JSON.stringify(appData, null, 2)], { type: 'application/json' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `sunnyside_backup_${formatDate(new Date())}.json`;
+      a.click();
+    }
+
+    function importData(e) {
+      const file = e.target.files[0];
+      if (!file) return;
+      const reader = new FileReader();
+      reader.onload = function(evt) {
+        try {
+          const parsed = JSON.parse(evt.target.result);
+          if (parsed.logs || parsed.plans) {
+            appData = parsed;
+            saveState();
+            render();
+            alert('Backup successfully restored!');
+          } else {
+            alert('Invalid backup file format.');
+          }
+        } catch(err) {
+          alert('Error reading backup file.');
+        }
+      };
+      reader.readAsText(file);
+    }
+
+    render();
+  </script>
+</body>
+</html>
