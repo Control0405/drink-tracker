@@ -18,27 +18,29 @@
       --text-dark: #1f2937;
       --text-muted: #64748b;
       --border-gray: #e2e8f0;
+      
+      /* Challenge Colors */
+      --chal-purple: #a855f7;
+      --chal-purple-bg: #faf5ff;
+      --chal-green: #84cc16;
+      --chal-green-bg: #f7fee7;
+
       --safe-top: env(safe-area-inset-top, 20px);
       --safe-bottom: env(safe-area-inset-bottom, 20px);
     }
 
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-      -webkit-tap-highlight-color: transparent;
-      user-select: none;
-    }
-
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, sans-serif; -webkit-tap-highlight-color: transparent; user-select: none; }
+    
     body {
       background-color: #f8fafc;
       color: var(--text-dark);
-      padding-bottom: calc(var(--safe-bottom) + 20px);
+      /* Extra padding for bottom nav */
+      padding-bottom: calc(var(--safe-bottom) + 80px);
       min-height: 100vh;
       overflow-x: hidden;
     }
 
+    /* --- TOP HEADER --- */
     .header-bg {
       background: linear-gradient(180deg, #1b8bf5 0%, var(--primary-blue) 100%);
       padding: calc(var(--safe-top) + 12px) 18px 24px 18px;
@@ -47,642 +49,287 @@
       border-bottom-right-radius: 28px;
       box-shadow: 0 4px 16px rgba(35, 148, 249, 0.25);
     }
-
-    .top-bar {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 18px;
-    }
-
-    .logo-area {
-      display: flex;
-      align-items: center;
-      gap: 6px;
-      font-size: 26px;
-      font-weight: 800;
-      letter-spacing: -0.5px;
-    }
-
-    .header-badges {
-      display: flex;
-      gap: 6px;
-    }
-
-    .header-badge {
-      background: rgba(255, 255, 255, 0.2);
-      border: 1px solid rgba(255, 255, 255, 0.4);
-      padding: 5px 10px;
-      border-radius: 20px;
-      font-size: 11px;
-      font-weight: 700;
-      color: white;
-      cursor: pointer;
-    }
-
-    .view-toggle {
-      background: rgba(0, 0, 0, 0.12);
-      border-radius: 30px;
-      display: flex;
-      padding: 3px;
-    }
-
-    .toggle-btn {
-      flex: 1;
-      text-align: center;
-      padding: 10px 0;
-      border-radius: 25px;
-      font-size: 15px;
-      font-weight: 700;
-      color: white;
-      border: none;
-      background: transparent;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 6px;
-      transition: all 0.2s ease;
-    }
-
-    .toggle-btn.active {
-      background: var(--sun-yellow);
-      color: #3b2c04;
-      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
-    }
-
-    .content-area {
-      padding: 16px;
-      max-width: 480px;
-      margin: 0 auto;
-    }
-
-    .day-strip {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin: 4px 0 16px 0;
-      gap: 4px;
-    }
-
-    .nav-arrow {
-      background: none;
-      border: none;
-      font-size: 18px;
-      color: var(--text-muted);
-      cursor: pointer;
-      padding: 4px;
-    }
-
-    .strip-items {
-      display: flex;
-      justify-content: space-between;
-      flex: 1;
-      gap: 4px;
-    }
-
-    .strip-col {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 6px;
-      cursor: pointer;
-      flex: 1;
-    }
-
-    .day-label {
-      font-size: 11px;
-      font-weight: 700;
-      color: var(--text-muted);
-    }
-
-    .day-badge {
-      width: 38px;
-      height: 38px;
-      border-radius: 10px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-weight: 700;
-      font-size: 15px;
-      background: #f1f5f9;
-      color: var(--text-muted);
-      border: 1.5px solid transparent;
-      transition: all 0.15s ease;
-    }
-
-    .day-badge.active-selected {
-      border: 2px solid var(--primary-blue);
-      background: white;
-      color: var(--primary-blue);
-    }
-
-    .day-badge.zero-drink {
-      background: var(--dry-green);
-      color: white;
-    }
-
-    .day-badge.had-drinks {
-      background: #1e40af;
-      color: white;
-    }
-
-    .selected-indicator {
-      width: 0;
-      height: 0;
-      border-left: 5px solid transparent;
-      border-right: 5px solid transparent;
-      border-top: 5px solid var(--primary-blue);
-      margin-top: -3px;
-      visibility: hidden;
-    }
-
-    .strip-col.selected .selected-indicator {
-      visibility: visible;
-    }
-
-    .day-card {
-      background: white;
-      border-radius: 24px;
-      padding: 24px 20px 0 20px;
-      border: 1px solid var(--border-gray);
-      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.04);
-      text-align: center;
-      overflow: hidden;
-    }
-
-    .day-card-title {
-      font-size: 24px;
-      font-weight: 800;
-      margin-bottom: 4px;
-    }
-
-    .day-card-date {
-      color: var(--text-muted);
-      font-size: 14px;
-      font-weight: 500;
-      margin-bottom: 30px;
-    }
-
-    .stepper-container {
-      position: relative;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      background: #90cdff;
-      border-radius: 16px;
-      height: 80px;
-      padding: 0 8px;
-      margin-bottom: 32px;
-    }
-
-    .stepper-btn {
-      width: 60px;
-      height: 60px;
-      border: none;
-      background: transparent;
-      color: white;
-      font-size: 40px;
-      font-weight: 300;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      cursor: pointer;
-    }
-
-    .stepper-center {
-      position: absolute;
-      left: 50%;
-      transform: translateX(-50%);
-      width: 120px;
-      height: 120px;
-      background: white;
-      border-radius: 50%;
-      box-shadow: 0 6px 16px rgba(0, 0, 0, 0.1);
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-    }
-
-    .stepper-num {
-      font-size: 40px;
-      font-weight: 800;
-      color: var(--text-dark);
-      line-height: 1;
-    }
-
-    .stepper-label {
-      font-size: 12px;
-      font-weight: 600;
-      color: var(--text-muted);
-      margin-top: 4px;
-    }
-
-    .card-footer-plan {
-      background: #e2f1ff;
-      margin: 0 -20px;
-      padding: 16px 20px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      font-weight: 700;
-      font-size: 14px;
-      color: var(--text-dark);
-      cursor: pointer;
-    }
-
-    .week-nav {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 16px;
-    }
-
-    .week-nav-title {
-      font-size: 18px;
-      font-weight: 800;
-    }
-
-    .week-cards-row {
-      display: flex;
-      gap: 12px;
-      margin-bottom: 24px;
-    }
-
-    .summary-card {
-      flex: 1;
-      border-radius: 20px;
-      overflow: hidden;
-      border: 1px solid var(--border-gray);
-      background: white;
-      display: flex;
-      flex-direction: column;
-    }
-
-    .summary-card-header {
-      padding: 8px;
-      text-align: center;
-      font-size: 11px;
-      font-weight: 800;
-      letter-spacing: 0.5px;
-      color: white;
-    }
-
-    .summary-card.drinks-card .summary-card-header {
-      background: var(--stepper-blue);
-    }
-
-    .summary-card.dry-card .summary-card-header {
-      background: var(--dry-green);
-    }
-
-    .summary-card-body {
-      padding: 16px;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      background: white;
-      flex: 1;
-    }
-
-    .ring-wrapper {
-      position: relative;
-      width: 100px;
-      height: 100px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      flex-direction: column;
-    }
-
-    .ring-val {
-      font-size: 28px;
-      font-weight: 800;
-      line-height: 1;
-    }
-
-    .ring-label {
-      font-size: 11px;
-      color: var(--text-muted);
-      margin-top: 2px;
-      font-weight: 600;
-    }
-
-    .summary-card-footer {
-      padding: 10px 12px;
-      font-size: 12px;
-      font-weight: 700;
-    }
-
-    .drinks-card .summary-card-footer {
-      background: var(--card-blue);
-      color: #0369a1;
-    }
-
-    .dry-card .summary-card-footer {
-      background: var(--card-green);
-      color: #3f6212;
-    }
-
-    .section-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 12px;
-    }
-
-    .section-title {
-      font-size: 17px;
-      font-weight: 800;
-    }
-
-    .btn-update-plan {
-      background: #ffffff;
-      border: 1px solid var(--border-gray);
-      border-radius: 12px;
-      padding: 8px 14px;
-      font-size: 13px;
-      font-weight: 700;
-      color: var(--primary-blue);
-      cursor: pointer;
-      box-shadow: 0 1px 3px rgba(0,0,0,0.05);
-    }
-
-    .breakdown-table {
-      background: white;
-      border-radius: 18px;
-      border: 1px solid var(--border-gray);
-      overflow: hidden;
-    }
-
-    .breakdown-row {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 12px 16px;
-      border-bottom: 1px solid #f1f5f9;
-    }
-
-    .breakdown-row:last-child {
-      border-bottom: none;
-    }
-
-    .breakdown-row.current-today {
-      background: #f0f7ff;
-      border-left: 4px solid var(--primary-blue);
-    }
-
-    .day-name {
-      font-size: 13px;
-      font-weight: 800;
-      width: 45px;
-    }
-
-    .row-counter {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-    }
-
-    .mini-btn {
-      width: 30px;
-      height: 30px;
-      border-radius: 50%;
-      border: 1px solid var(--border-gray);
-      background: white;
-      font-size: 18px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      color: var(--text-dark);
-      cursor: pointer;
-    }
-
-    .mini-badge {
-      width: 34px;
-      height: 34px;
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-weight: 700;
-      font-size: 14px;
-    }
-
-    .row-plan {
-      font-size: 13px;
-      font-weight: 700;
-      color: var(--text-dark);
-      background: #f1f5f9;
-      padding: 4px 10px;
-      border-radius: 8px;
-      display: flex;
-      align-items: center;
-      gap: 4px;
-      cursor: pointer;
-    }
-
-    .modal {
-      position: fixed;
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      background: rgba(0, 0, 0, 0.45);
-      display: none;
-      align-items: center;
-      justify-content: center;
-      z-index: 100;
-      padding: 16px;
-      backdrop-filter: blur(2px);
-    }
-
-    .modal-box {
-      background: white;
-      border-radius: 24px;
-      padding: 22px;
-      max-width: 360px;
-      width: 100%;
-      box-shadow: 0 10px 25px rgba(0,0,0,0.15);
-    }
-
-    .modal-box h3 {
-      font-size: 18px;
-      font-weight: 800;
-      text-align: center;
-      margin-bottom: 6px;
-    }
-
-    .modal-subtitle {
-      font-size: 12px;
-      color: var(--text-muted);
-      text-align: center;
-      margin-bottom: 16px;
-    }
-
-    .modal-input {
-      width: 100%;
-      padding: 12px;
-      font-size: 20px;
-      border-radius: 12px;
-      border: 1.5px solid var(--border-gray);
-      margin-bottom: 18px;
-      text-align: center;
-      font-weight: 700;
-    }
-
-    .modal-actions {
-      display: flex;
-      gap: 10px;
-    }
-
-    .modal-btn {
-      flex: 1;
-      padding: 12px;
-      border-radius: 12px;
-      font-weight: 700;
-      font-size: 14px;
-      border: none;
-      cursor: pointer;
-    }
-
-    .week-plan-row {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 8px 4px;
-      border-bottom: 1px solid #f1f5f9;
-    }
-
-    .week-plan-row:last-child {
-      border-bottom: none;
-    }
-
-    .week-plan-day-label {
-      font-weight: 800;
-      font-size: 14px;
-    }
-
-    .week-plan-date-label {
-      font-size: 11px;
-      color: var(--text-muted);
-    }
+    .top-bar { display: flex; justify-content: space-between; align-items: center; margin-bottom: 18px; }
+    .logo-area { display: flex; align-items: center; gap: 6px; font-size: 26px; font-weight: 800; letter-spacing: -0.5px; }
+    .header-badges { display: flex; gap: 6px; }
+    .header-badge { background: rgba(255, 255, 255, 0.2); border: 1px solid rgba(255, 255, 255, 0.4); padding: 5px 10px; border-radius: 20px; font-size: 11px; font-weight: 700; color: white; cursor: pointer; }
+
+    .view-toggle { background: rgba(0, 0, 0, 0.12); border-radius: 30px; display: flex; padding: 3px; }
+    .toggle-btn { flex: 1; text-align: center; padding: 10px 0; border-radius: 25px; font-size: 15px; font-weight: 700; color: white; border: none; background: transparent; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 6px; transition: all 0.2s ease; }
+    .toggle-btn.active { background: var(--sun-yellow); color: #3b2c04; box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15); }
+
+    .content-area { padding: 16px; max-width: 480px; margin: 0 auto; }
+
+    /* --- SHARED CARD UI --- */
+    .card { background: white; border-radius: 24px; padding: 24px 20px; border: 1px solid var(--border-gray); box-shadow: 0 4px 20px rgba(0, 0, 0, 0.04); text-align: center; overflow: hidden; margin-bottom: 16px; }
+    .card-title { font-size: 24px; font-weight: 800; margin-bottom: 4px; }
+    .card-subtitle { color: var(--text-muted); font-size: 14px; font-weight: 500; margin-bottom: 24px; }
+
+    /* --- TRACKER STYLES --- */
+    .day-strip { display: flex; justify-content: space-between; align-items: center; margin: 4px 0 16px 0; gap: 4px; }
+    .nav-arrow { background: none; border: none; font-size: 18px; color: var(--text-muted); cursor: pointer; padding: 4px; }
+    .strip-items { display: flex; justify-content: space-between; flex: 1; gap: 4px; }
+    .strip-col { display: flex; flex-direction: column; align-items: center; gap: 6px; cursor: pointer; flex: 1; }
+    .day-label { font-size: 11px; font-weight: 700; color: var(--text-muted); }
+    .day-badge { width: 38px; height: 38px; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 15px; background: #f1f5f9; color: var(--text-muted); border: 1.5px solid transparent; }
+    .day-badge.active-selected { border: 2px solid var(--primary-blue); background: white; color: var(--primary-blue); }
+    .day-badge.zero-drink { background: var(--dry-green); color: white; }
+    .day-badge.had-drinks { background: #1e40af; color: white; }
+    .selected-indicator { width: 0; height: 0; border-left: 5px solid transparent; border-right: 5px solid transparent; border-top: 5px solid var(--primary-blue); margin-top: -3px; visibility: hidden; }
+    .strip-col.selected .selected-indicator { visibility: visible; }
+
+    .stepper-container { position: relative; display: flex; align-items: center; justify-content: space-between; background: #90cdff; border-radius: 16px; height: 80px; padding: 0 8px; margin-bottom: 32px; }
+    .stepper-btn { width: 60px; height: 60px; border: none; background: transparent; color: white; font-size: 40px; font-weight: 300; display: flex; align-items: center; justify-content: center; cursor: pointer; }
+    .stepper-center { position: absolute; left: 50%; transform: translateX(-50%); width: 120px; height: 120px; background: white; border-radius: 50%; box-shadow: 0 6px 16px rgba(0, 0, 0, 0.1); display: flex; flex-direction: column; align-items: center; justify-content: center; }
+    .stepper-num { font-size: 40px; font-weight: 800; color: var(--text-dark); line-height: 1; }
+    .stepper-label { font-size: 12px; font-weight: 600; color: var(--text-muted); margin-top: 4px; }
+    .card-footer-plan { background: #e2f1ff; margin: 0 -20px -24px -20px; padding: 16px 20px; display: flex; justify-content: space-between; align-items: center; font-weight: 700; font-size: 14px; color: var(--text-dark); cursor: pointer; }
+
+    /* --- WEEK VIEW STYLES --- */
+    .week-nav { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; }
+    .week-nav-title { font-size: 18px; font-weight: 800; }
+    .week-cards-row { display: flex; gap: 12px; margin-bottom: 24px; }
+    .summary-card { flex: 1; border-radius: 20px; overflow: hidden; border: 1px solid var(--border-gray); background: white; display: flex; flex-direction: column; }
+    .summary-card-header { padding: 8px; text-align: center; font-size: 11px; font-weight: 800; letter-spacing: 0.5px; color: white; }
+    .summary-card.drinks-card .summary-card-header { background: var(--stepper-blue); }
+    .summary-card.dry-card .summary-card-header { background: var(--dry-green); }
+    .summary-card-body { padding: 16px; display: flex; flex-direction: column; align-items: center; justify-content: center; background: white; flex: 1; }
+    .ring-wrapper { position: relative; width: 100px; height: 100px; display: flex; align-items: center; justify-content: center; flex-direction: column; }
+    .ring-val { font-size: 28px; font-weight: 800; line-height: 1; }
+    .ring-label { font-size: 11px; color: var(--text-muted); margin-top: 2px; font-weight: 600; }
+    .summary-card-footer { padding: 10px 12px; font-size: 12px; font-weight: 700; }
+    .drinks-card .summary-card-footer { background: var(--card-blue); color: #0369a1; }
+    .dry-card .summary-card-footer { background: var(--card-green); color: #3f6212; }
+    
+    .section-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; }
+    .section-title { font-size: 17px; font-weight: 800; }
+    .btn-update-plan { background: #ffffff; border: 1px solid var(--border-gray); border-radius: 12px; padding: 8px 14px; font-size: 13px; font-weight: 700; color: var(--primary-blue); cursor: pointer; box-shadow: 0 1px 3px rgba(0,0,0,0.05); }
+
+    .breakdown-table { background: white; border-radius: 18px; border: 1px solid var(--border-gray); overflow: hidden; }
+    .breakdown-row { display: flex; align-items: center; justify-content: space-between; padding: 12px 16px; border-bottom: 1px solid #f1f5f9; }
+    .breakdown-row:last-child { border-bottom: none; }
+    .breakdown-row.current-today { background: #f0f7ff; border-left: 4px solid var(--primary-blue); }
+    .day-name { font-size: 13px; font-weight: 800; width: 45px; }
+    .row-counter { display: flex; align-items: center; gap: 12px; }
+    .mini-btn { width: 30px; height: 30px; border-radius: 50%; border: 1px solid var(--border-gray); background: white; font-size: 18px; display: flex; align-items: center; justify-content: center; color: var(--text-dark); cursor: pointer; }
+    .mini-badge { width: 34px; height: 34px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 14px; }
+    .row-plan { font-size: 13px; font-weight: 700; color: var(--text-dark); background: #f1f5f9; padding: 4px 10px; border-radius: 8px; display: flex; align-items: center; gap: 4px; cursor: pointer; }
+
+    /* --- CHALLENGES TAB STYLES --- */
+    .chal-list-item { background: white; border-radius: 16px; border: 1px solid var(--border-gray); padding: 16px; margin-bottom: 12px; display: flex; justify-content: space-between; align-items: center; }
+    .chal-info h4 { font-size: 16px; font-weight: 800; margin-bottom: 4px; }
+    .chal-info p { font-size: 13px; color: var(--text-muted); }
+    .btn-join { background: var(--primary-blue); color: white; border: none; border-radius: 20px; padding: 8px 16px; font-weight: 700; font-size: 13px; cursor: pointer; }
+
+    .arc-container { position: relative; width: 200px; height: 110px; margin: 0 auto 20px auto; display: flex; flex-direction: column; align-items: center; justify-content: flex-end; }
+    .arc-svg { position: absolute; top: 0; left: 0; width: 100%; height: 200px; }
+    .arc-text-large { font-size: 38px; font-weight: 800; line-height: 1; }
+    .arc-text-small { font-size: 13px; color: var(--text-muted); font-weight: 600; margin-top: 4px; }
+    .arc-badge { display: inline-flex; align-items: center; gap: 4px; padding: 4px 10px; border-radius: 12px; font-size: 12px; font-weight: 700; margin-top: 8px; }
+    
+    .chal-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 6px; background: #f8fafc; border-radius: 16px; padding: 16px; border: 1px solid var(--border-gray); }
+    .chal-grid-header { font-size: 12px; font-weight: 800; color: var(--text-dark); margin-bottom: 8px; }
+    .chal-box { aspect-ratio: 1; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 14px; font-weight: 700; }
+    .chal-box.empty { background: transparent; }
+    .chal-box.future { background: #f1f5f9; }
+    .chal-box.exempt { background: #f1f5f9; color: #cbd5e1; }
+    .chal-box.success-purple { background: var(--chal-purple); color: white; }
+    .chal-box.success-green { background: var(--chal-green); color: white; }
+    .chal-box.fail { background: #ef4444; color: white; }
+
+    .btn-quit { background: none; border: none; color: #ef4444; font-size: 14px; font-weight: 700; text-decoration: underline; margin-top: 20px; cursor: pointer; }
+
+    /* --- BOTTOM NAV --- */
+    .bottom-nav { position: fixed; bottom: 0; left: 0; right: 0; background: white; border-top: 1px solid var(--border-gray); display: flex; padding-bottom: var(--safe-bottom); z-index: 50; }
+    .nav-tab { flex: 1; padding: 12px 0; display: flex; flex-direction: column; align-items: center; gap: 4px; color: var(--text-muted); font-size: 11px; font-weight: 700; cursor: pointer; }
+    .nav-tab.active { color: var(--primary-blue); }
+    .nav-tab-icon { font-size: 22px; }
+
+    /* --- MODALS --- */
+    .modal { position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0, 0, 0, 0.45); display: none; align-items: center; justify-content: center; z-index: 100; padding: 16px; backdrop-filter: blur(2px); }
+    .modal-box { background: white; border-radius: 24px; padding: 22px; max-width: 360px; width: 100%; box-shadow: 0 10px 25px rgba(0,0,0,0.15); }
+    .modal-box h3 { font-size: 18px; font-weight: 800; text-align: center; margin-bottom: 6px; }
+    .modal-subtitle { font-size: 12px; color: var(--text-muted); text-align: center; margin-bottom: 16px; }
+    .modal-input { width: 100%; padding: 12px; font-size: 20px; border-radius: 12px; border: 1.5px solid var(--border-gray); margin-bottom: 18px; text-align: center; font-weight: 700; }
+    .modal-actions { display: flex; gap: 10px; }
+    .modal-btn { flex: 1; padding: 12px; border-radius: 12px; font-weight: 700; font-size: 14px; border: none; cursor: pointer; }
+    .week-plan-row { display: flex; justify-content: space-between; align-items: center; padding: 8px 4px; border-bottom: 1px solid #f1f5f9; }
   </style>
 </head>
 <body>
 
-  <div class="header-bg">
+  <!-- Tracker Top Header -->
+  <div id="header-tracker" class="header-bg">
     <div class="top-bar">
-      <div class="logo-area">
-        <span style="font-size: 20px;">☀️</span> sunnyside
-      </div>
+      <div class="logo-area"><span style="font-size: 20px;">☀️</span> sunnyside</div>
       <div class="header-badges">
         <button class="header-badge" onclick="exportData()">💾 BACKUP</button>
-        <button class="header-badge" onclick="document.getElementById('importFile').click()">📂 RESTORE</button>
-        <input type="file" id="importFile" accept=".json" style="display:none;" onchange="importData(event)" />
       </div>
     </div>
-
     <div class="view-toggle">
-      <button class="toggle-btn" id="btn-week" onclick="setView('week')">
-        📅 Week
-      </button>
-      <button class="toggle-btn active" id="btn-day" onclick="setView('day')">
-        ☀️ Day
-      </button>
+      <button class="toggle-btn" id="btn-week" onclick="setTrackerView('week')">📅 Week</button>
+      <button class="toggle-btn active" id="btn-day" onclick="setTrackerView('day')">☀️ Day</button>
+    </div>
+  </div>
+
+  <!-- Challenges Top Header -->
+  <div id="header-challenges" class="header-bg" style="display:none; padding-bottom: 16px; border-bottom-left-radius: 0; border-bottom-right-radius: 0;">
+    <div class="top-bar" style="margin-bottom: 0;">
+      <div class="logo-area">🏆 Challenges</div>
     </div>
   </div>
 
   <div class="content-area">
 
-    <!-- DAY VIEW -->
-    <div id="view-day">
-      <div class="day-strip">
-        <button class="nav-arrow" onclick="shiftWeek(-1)">‹</button>
-        <div class="strip-items" id="strip-container"></div>
-        <button class="nav-arrow" onclick="shiftWeek(1)">›</button>
+    <!-- ==================== TRACKER TAB ==================== -->
+    <div id="tab-tracker">
+      <!-- DAY VIEW -->
+      <div id="view-day">
+        <div class="day-strip">
+          <button class="nav-arrow" onclick="shiftWeek(-1)">‹</button>
+          <div class="strip-items" id="strip-container"></div>
+          <button class="nav-arrow" onclick="shiftWeek(1)">›</button>
+        </div>
+
+        <div class="card">
+          <div class="card-title" id="day-card-title">Today</div>
+          <div class="card-subtitle" id="day-card-date">Loading...</div>
+
+          <div class="stepper-container">
+            <button class="stepper-btn" onclick="modifyDrinks(-1)">−</button>
+            <div class="stepper-center">
+              <div class="stepper-num" id="stepper-display">0</div>
+              <div class="stepper-label">Drinks</div>
+            </div>
+            <button class="stepper-btn" onclick="modifyDrinks(1)">+</button>
+          </div>
+
+          <div class="card-footer-plan" onclick="openSinglePlanModal(formatDate(selectedDate))">
+            <span>TODAY'S PLAN</span>
+            <span id="plan-display">0 drinks ✏️</span>
+          </div>
+        </div>
       </div>
 
-      <div class="day-card">
-        <div class="day-card-title" id="day-card-title">Today</div>
-        <div class="day-card-date" id="day-card-date">Loading...</div>
+      <!-- WEEK VIEW -->
+      <div id="view-week" style="display: none;">
+        <div class="week-nav">
+          <button class="nav-arrow" onclick="shiftWeek(-1)">‹</button>
+          <div class="week-nav-title" id="week-range-label">This Week</div>
+          <button class="nav-arrow" onclick="shiftWeek(1)">›</button>
+        </div>
 
-        <div class="stepper-container">
-          <button class="stepper-btn" onclick="modifyDrinks(-1)">−</button>
-          <div class="stepper-center">
-            <div class="stepper-num" id="stepper-display">0</div>
-            <div class="stepper-label">Drinks</div>
+        <div class="week-cards-row">
+          <div class="summary-card drinks-card">
+            <div class="summary-card-header" id="drinks-status-badge">ON TRACK ✓</div>
+            <div class="summary-card-body">
+              <div class="ring-wrapper">
+                <svg width="100" height="100">
+                  <circle cx="50" cy="50" r="40" stroke="#f1f5f9" stroke-width="8" fill="none" />
+                  <circle id="drinks-ring" cx="50" cy="50" r="40" stroke="#32a1fd" stroke-width="8" fill="none" stroke-linecap="round" stroke-dasharray="251.2" stroke-dashoffset="251.2" transform="rotate(-90 50 50)" />
+                </svg>
+                <div style="position: absolute; text-align: center;">
+                  <div class="ring-val" id="week-drinks-sum">0</div>
+                  <div class="ring-label">Drinks</div>
+                </div>
+              </div>
+            </div>
+            <div class="summary-card-footer" id="week-drinks-plan">0 drinks PLAN</div>
           </div>
-          <button class="stepper-btn" onclick="modifyDrinks(1)">+</button>
+
+          <div class="summary-card dry-card">
+            <div class="summary-card-header" id="dry-status-badge">ON TRACK ✓</div>
+            <div class="summary-card-body">
+              <div class="ring-wrapper">
+                <svg width="100" height="100">
+                  <circle cx="50" cy="50" r="40" stroke="#f1f5f9" stroke-width="8" fill="none" />
+                  <circle id="dry-ring" cx="50" cy="50" r="40" stroke="#93c942" stroke-width="8" fill="none" stroke-linecap="round" stroke-dasharray="251.2" stroke-dashoffset="251.2" transform="rotate(-90 50 50)" />
+                </svg>
+                <div style="position: absolute; text-align: center;">
+                  <div class="ring-val" id="week-dry-sum">0</div>
+                  <div class="ring-label">Dry Days</div>
+                </div>
+              </div>
+            </div>
+            <div class="summary-card-footer" id="week-dry-plan">0 dry days PLAN</div>
+          </div>
         </div>
 
-        <div class="card-footer-plan" onclick="openSinglePlanModal(formatDate(selectedDate))">
-          <span>TODAY'S PLAN</span>
-          <span id="plan-display">0 drinks ✏️</span>
+        <div class="section-header">
+          <div class="section-title">Daily Breakdown</div>
+          <button class="btn-update-plan" onclick="openWeeklyPlanModal()">✏️ Update Plan</button>
         </div>
+        <div class="breakdown-table" id="breakdown-rows"></div>
       </div>
     </div>
 
-    <!-- WEEK VIEW -->
-    <div id="view-week" style="display: none;">
-      <div class="week-nav">
-        <button class="nav-arrow" onclick="shiftWeek(-1)">‹</button>
-        <div class="week-nav-title" id="week-range-label">This Week</div>
-        <button class="nav-arrow" onclick="shiftWeek(1)">›</button>
-      </div>
-
-      <div class="week-cards-row">
-        <div class="summary-card drinks-card">
-          <div class="summary-card-header" id="drinks-status-badge">ON TRACK ✓</div>
-          <div class="summary-card-body">
-            <div class="ring-wrapper">
-              <svg width="100" height="100">
-                <circle cx="50" cy="50" r="40" stroke="#f1f5f9" stroke-width="8" fill="none" />
-                <circle id="drinks-ring" cx="50" cy="50" r="40" stroke="#32a1fd" stroke-width="8" fill="none" stroke-linecap="round" stroke-dasharray="251.2" stroke-dashoffset="251.2" transform="rotate(-90 50 50)" />
-              </svg>
-              <div style="position: absolute; text-align: center;">
-                <div class="ring-val" id="week-drinks-sum">0</div>
-                <div class="ring-label">Drinks</div>
-              </div>
-            </div>
+    <!-- ==================== CHALLENGES TAB ==================== -->
+    <div id="tab-challenges" style="display: none;">
+      
+      <!-- Selection Screen -->
+      <div id="chal-selection">
+        <h3 style="margin-bottom: 16px;">Join a challenge today</h3>
+        
+        <div class="chal-list-item">
+          <div class="chal-info">
+            <h4>Week Night Dry</h4>
+            <p>30-Day Alcohol Reset</p>
           </div>
-          <div class="summary-card-footer" id="week-drinks-plan">0 drinks THIS WEEK'S PLAN</div>
+          <button class="btn-join" style="background: var(--chal-purple);" onclick="startChallenge('weeknight')">Join</button>
         </div>
 
-        <div class="summary-card dry-card">
-          <div class="summary-card-header" id="dry-status-badge">ON TRACK ✓</div>
-          <div class="summary-card-body">
-            <div class="ring-wrapper">
-              <svg width="100" height="100">
-                <circle cx="50" cy="50" r="40" stroke="#f1f5f9" stroke-width="8" fill="none" />
-                <circle id="dry-ring" cx="50" cy="50" r="40" stroke="#93c942" stroke-width="8" fill="none" stroke-linecap="round" stroke-dasharray="251.2" stroke-dashoffset="251.2" transform="rotate(-90 50 50)" />
-              </svg>
-              <div style="position: absolute; text-align: center;">
-                <div class="ring-val" id="week-dry-sum">0</div>
-                <div class="ring-label">Dry Days</div>
-              </div>
-            </div>
+        <div class="chal-list-item">
+          <div class="chal-info">
+            <h4>Fully Dry</h4>
+            <p>30-Day Alcohol Reset</p>
           </div>
-          <div class="summary-card-footer" id="week-dry-plan">0 dry days THIS WEEK'S PLAN</div>
+          <button class="btn-join" style="background: var(--chal-green);" onclick="startChallenge('fullydry')">Join</button>
         </div>
       </div>
 
-      <div class="section-header">
-        <div class="section-title">Daily Breakdown</div>
-        <button class="btn-update-plan" onclick="openWeeklyPlanModal()">✏️ Update Plan</button>
+      <!-- Active Challenge Dashboard -->
+      <div id="chal-active" class="card" style="display: none; padding-top: 32px;">
+        <div class="card-subtitle" style="text-transform: uppercase; letter-spacing: 1px; margin-bottom: 8px; font-size: 12px; font-weight: 800;" id="chal-type-label">30-DAY ALCOHOL RESET</div>
+        <div class="card-title" id="chal-title">Challenge Name</div>
+        <div class="card-subtitle" id="chal-dates">01/01/26 - 01/31/26</div>
+
+        <div class="arc-container">
+          <svg viewBox="0 0 100 50" class="arc-svg">
+            <path d="M 10 45 A 35 35 0 0 1 90 45" fill="none" stroke="#e2e8f0" stroke-width="8"/>
+            <path id="chal-arc-path" d="M 10 45 A 35 35 0 0 1 90 45" fill="none" stroke="var(--primary-blue)" stroke-width="8" stroke-dasharray="110" stroke-dashoffset="110" stroke-linecap="round" />
+          </svg>
+          <div class="arc-text-large" id="chal-percent">0%</div>
+          <div class="arc-text-small">Days on Target</div>
+          <div class="arc-badge" id="chal-badge">✓ 0 On Plan</div>
+        </div>
+
+        <div style="text-align: left; background: white;">
+          <div class="chal-grid-header">🗓 CHALLENGE PROGRESS</div>
+          <div class="chal-grid" id="chal-grid"></div>
+        </div>
+
+        <button class="btn-quit" onclick="quitChallenge()">Quit Challenge</button>
       </div>
 
-      <div class="breakdown-table" id="breakdown-rows"></div>
     </div>
   </div>
 
-  <!-- Single Day Plan Modal -->
+  <!-- Bottom Navigation -->
+  <div class="bottom-nav">
+    <div class="nav-tab active" id="nav-tracker" onclick="switchMainTab('tracker')">
+      <div class="nav-tab-icon">☀️</div>
+      Tracker
+    </div>
+    <div class="nav-tab" id="nav-challenges" onclick="switchMainTab('challenges')">
+      <div class="nav-tab-icon">🏆</div>
+      Challenges
+    </div>
+  </div>
+
+  <!-- Modals -->
   <div class="modal" id="singlePlanModal">
     <div class="modal-box">
       <h3 id="singleModalTitle">Plan Target</h3>
-      <div class="modal-subtitle">Set drink target for this date</div>
       <input type="number" id="singleModalInput" class="modal-input" min="0" max="25" />
       <div class="modal-actions">
         <button class="modal-btn" style="background: #e2e8f0;" onclick="closeModal('singlePlanModal')">Cancel</button>
@@ -691,12 +338,10 @@
     </div>
   </div>
 
-  <!-- Interactive 7-Day Week Planner Modal -->
   <div class="modal" id="weekPlanModal">
     <div class="modal-box" style="max-height: 85vh; display: flex; flex-direction: column;">
       <h3>Plan This Week</h3>
-      <div class="modal-subtitle">Set custom targets for each day</div>
-      <div id="weekPlanList" style="overflow-y: auto; flex: 1; margin-bottom: 16px; padding-right: 4px;"></div>
+      <div id="weekPlanList" style="overflow-y: auto; flex: 1; margin-bottom: 16px;"></div>
       <div class="modal-actions">
         <button class="modal-btn" style="background: #e2e8f0;" onclick="closeModal('weekPlanModal')">Cancel</button>
         <button class="modal-btn" style="background: var(--primary-blue); color: white;" onclick="saveWeeklyPlan()">Save Week</button>
@@ -706,12 +351,9 @@
 
   <script>
     const STORAGE_KEY = 'sunnyside_local_data';
-    let appData = JSON.parse(localStorage.getItem(STORAGE_KEY)) || {
-      logs: {},
-      plans: {}
-    };
+    let appData = JSON.parse(localStorage.getItem(STORAGE_KEY)) || { logs: {}, plans: {}, challenge: null };
 
-    let activeView = 'day';
+    let trackerActiveView = 'day';
     let selectedDate = new Date();
     let weekOffset = 0;
     let targetSingleDate = null;
@@ -731,288 +373,255 @@
       return `${year}-${month}-${day}`;
     }
 
-    function saveState() {
-      localStorage.setItem(STORAGE_KEY, JSON.stringify(appData));
+    function saveState() { localStorage.setItem(STORAGE_KEY, JSON.stringify(appData)); }
+
+    // --- Navigation Logic ---
+    function switchMainTab(tab) {
+      document.getElementById('nav-tracker').classList.toggle('active', tab === 'tracker');
+      document.getElementById('nav-challenges').classList.toggle('active', tab === 'challenges');
+      
+      document.getElementById('tab-tracker').style.display = tab === 'tracker' ? 'block' : 'none';
+      document.getElementById('header-tracker').style.display = tab === 'tracker' ? 'block' : 'none';
+      
+      document.getElementById('tab-challenges').style.display = tab === 'challenges' ? 'block' : 'none';
+      document.getElementById('header-challenges').style.display = tab === 'challenges' ? 'block' : 'none';
+      
+      if(tab === 'tracker') renderTracker();
+      if(tab === 'challenges') renderChallenges();
     }
 
-    function setView(view) {
-      activeView = view;
+    function setTrackerView(view) {
+      trackerActiveView = view;
       document.getElementById('btn-day').classList.toggle('active', view === 'day');
       document.getElementById('btn-week').classList.toggle('active', view === 'week');
       document.getElementById('view-day').style.display = view === 'day' ? 'block' : 'none';
       document.getElementById('view-week').style.display = view === 'week' ? 'block' : 'none';
-      render();
+      renderTracker();
     }
 
-    function shiftWeek(direction) {
-      weekOffset += direction;
-      selectedDate.setDate(selectedDate.getDate() + (direction * 7));
-      render();
-    }
-
-    function selectDate(dateStr) {
-      const parts = dateStr.split('-');
-      selectedDate = new Date(parts[0], parts[1] - 1, parts[2]);
-      render();
-    }
-
+    // --- Tracker Logic ---
+    function shiftWeek(direction) { weekOffset += direction; selectedDate.setDate(selectedDate.getDate() + (direction * 7)); renderTracker(); }
+    function selectDate(dateStr) { const p = dateStr.split('-'); selectedDate = new Date(p[0], p[1]-1, p[2]); renderTracker(); }
     function modifyDrinks(delta, targetDateStr = null) {
       const key = targetDateStr || formatDate(selectedDate);
-      const current = appData.logs[key] !== undefined ? appData.logs[key] : 0;
-      const next = Math.max(0, current + delta);
-      appData.logs[key] = next;
-      saveState();
-      render();
+      const cur = appData.logs[key] !== undefined ? appData.logs[key] : 0;
+      appData.logs[key] = Math.max(0, cur + delta);
+      saveState(); renderTracker();
     }
 
-    function render() {
+    function renderTracker() {
       const todayStr = formatDate(new Date());
       const selectedStr = formatDate(selectedDate);
       const baseMonday = getMonday(new Date());
       baseMonday.setDate(baseMonday.getDate() + (weekOffset * 7));
-
       const weekDays = [];
-      for (let i = 0; i < 7; i++) {
-        const d = new Date(baseMonday);
-        d.setDate(d.getDate() + i);
-        weekDays.push(d);
-      }
+      for (let i = 0; i < 7; i++) { const d = new Date(baseMonday); d.setDate(d.getDate() + i); weekDays.push(d); }
 
-      // 1. Day Strip
+      // Strip
       const dayNames = ['M', 'T', 'W', 'T', 'F', 'S', 'S'];
       const stripContainer = document.getElementById('strip-container');
       stripContainer.innerHTML = '';
-
       weekDays.forEach((d, idx) => {
-        const dStr = formatDate(d);
-        const logged = appData.logs[dStr];
-        const isSelected = dStr === selectedStr;
-
-        let badgeClass = 'day-badge';
-        let badgeContent = '-';
-
-        if (logged !== undefined) {
-          badgeContent = logged;
-          if (logged === 0) badgeClass += ' zero-drink';
-          else badgeClass += ' had-drinks';
-        }
-
-        if (isSelected) {
-          badgeClass += ' active-selected';
-          if (logged === undefined) badgeContent = '★';
-        }
-
+        const dStr = formatDate(d); const logged = appData.logs[dStr]; const isSelected = dStr === selectedStr;
+        let bClass = 'day-badge'; let bCont = '-';
+        if (logged !== undefined) { bCont = logged; bClass += logged === 0 ? ' zero-drink' : ' had-drinks'; }
+        if (isSelected) { bClass += ' active-selected'; if (logged === undefined) bCont = '★'; }
         const col = document.createElement('div');
         col.className = `strip-col ${isSelected ? 'selected' : ''}`;
         col.onclick = () => selectDate(dStr);
-        col.innerHTML = `
-          <div class="day-label">${dayNames[idx]}</div>
-          <div class="${badgeClass}">${badgeContent}</div>
-          <div class="selected-indicator"></div>
-        `;
+        col.innerHTML = `<div class="day-label">${dayNames[idx]}</div><div class="${bClass}">${bCont}</div><div class="selected-indicator"></div>`;
         stripContainer.appendChild(col);
       });
 
-      // 2. Day View Card
-      const isToday = selectedStr === todayStr;
-      document.getElementById('day-card-title').innerText = isToday ? 'Today' : selectedDate.toLocaleDateString('en-US', { weekday: 'long' });
+      // Day Card
+      document.getElementById('day-card-title').innerText = selectedStr === todayStr ? 'Today' : selectedDate.toLocaleDateString('en-US', { weekday: 'long' });
       document.getElementById('day-card-date').innerText = selectedDate.toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' });
+      document.getElementById('stepper-display').innerText = appData.logs[selectedStr] !== undefined ? appData.logs[selectedStr] : 0;
+      document.getElementById('plan-display').innerText = `${appData.plans[selectedStr] || 0} drinks ✏️`;
 
-      const dayDrinks = appData.logs[selectedStr] !== undefined ? appData.logs[selectedStr] : 0;
-      document.getElementById('stepper-display').innerText = dayDrinks;
-
-      const dayPlan = appData.plans[selectedStr] !== undefined ? appData.plans[selectedStr] : 0;
-      document.getElementById('plan-display').innerText = `${dayPlan} drinks ✏️`;
-
-      // 3. Week View Breakdown
-      let totalDrinks = 0;
-      let totalPlannedDrinks = 0;
-      let dryDaysCount = 0;
-      let plannedDryDays = 0;
-
-      const breakdownRows = document.getElementById('breakdown-rows');
-      breakdownRows.innerHTML = '';
+      // Week View Breakdown
+      let totalD = 0, totalP = 0, dryC = 0, planDry = 0;
+      const bRows = document.getElementById('breakdown-rows'); bRows.innerHTML = '';
       const fullDayNames = ['MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT', 'SUN'];
 
       weekDays.forEach((d, idx) => {
-        const dStr = formatDate(d);
-        const drinks = appData.logs[dStr];
-        const plan = appData.plans[dStr] !== undefined ? appData.plans[dStr] : 0;
+        const dStr = formatDate(d); const drinks = appData.logs[dStr]; const plan = appData.plans[dStr] || 0;
+        totalP += plan; if (plan === 0) planDry++;
+        if (drinks !== undefined) { totalD += drinks; if (drinks === 0) dryC++; }
 
-        totalPlannedDrinks += plan;
-        if (plan === 0) plannedDryDays++;
-
-        if (drinks !== undefined) {
-          totalDrinks += drinks;
-          if (drinks === 0) dryDaysCount++;
-        }
+        let bBg = '#f1f5f9', bCol = 'var(--text-muted)', dVal = '-';
+        if (drinks !== undefined) { dVal = drinks; bBg = drinks === 0 ? 'var(--dry-green)' : '#1e40af'; bCol = 'white'; }
+        else if (dStr === selectedStr) { dVal = '★'; bCol = 'var(--primary-blue)'; }
 
         const row = document.createElement('div');
         row.className = `breakdown-row ${dStr === todayStr ? 'current-today' : ''}`;
-
-        let badgeBg = '#f1f5f9';
-        let badgeColor = 'var(--text-muted)';
-        let displayVal = '-';
-
-        if (drinks !== undefined) {
-          displayVal = drinks;
-          if (drinks === 0) {
-            badgeBg = 'var(--dry-green)';
-            badgeColor = 'white';
-          } else {
-            badgeBg = '#1e40af';
-            badgeColor = 'white';
-          }
-        } else if (dStr === selectedStr) {
-          displayVal = '★';
-          badgeColor = 'var(--primary-blue)';
-        }
-
-        row.innerHTML = `
-          <div class="day-name">${fullDayNames[idx]}</div>
+        row.innerHTML = `<div class="day-name">${fullDayNames[idx]}</div>
           <div class="row-counter">
             <button class="mini-btn" onclick="modifyDrinks(-1, '${dStr}')">−</button>
-            <div class="mini-badge" style="background: ${badgeBg}; color: ${badgeColor};">${displayVal}</div>
+            <div class="mini-badge" style="background:${bBg}; color:${bCol};">${dVal}</div>
             <button class="mini-btn" onclick="modifyDrinks(1, '${dStr}')">+</button>
           </div>
-          <div class="row-plan" onclick="openSinglePlanModal('${dStr}')" title="Tap to change target">
-            ${plan} ✏️
-          </div>
-        `;
-        breakdownRows.appendChild(row);
+          <div class="row-plan" onclick="openSinglePlanModal('${dStr}')">${plan} ✏️</div>`;
+        bRows.appendChild(row);
       });
 
-      document.getElementById('week-drinks-sum').innerText = totalDrinks;
-      document.getElementById('week-drinks-plan').innerText = `${totalPlannedDrinks} drinks THIS WEEK'S PLAN`;
-      document.getElementById('week-dry-sum').innerText = dryDaysCount;
-      document.getElementById('week-dry-plan').innerText = `${plannedDryDays} dry days THIS WEEK'S PLAN`;
+      // Week Cards
+      document.getElementById('week-drinks-sum').innerText = totalD;
+      document.getElementById('week-drinks-plan').innerText = `${totalP} drinks PLAN`;
+      document.getElementById('week-dry-sum').innerText = dryC;
+      document.getElementById('week-dry-plan').innerText = `${planDry} dry days PLAN`;
 
-      const circumference = 251.2;
-      const drinkRatio = totalPlannedDrinks > 0 ? Math.min(totalDrinks / totalPlannedDrinks, 1) : 0;
-      document.getElementById('drinks-ring').style.strokeDashoffset = circumference - (circumference * drinkRatio);
-
-      const dryRatio = plannedDryDays > 0 ? Math.min(dryDaysCount / plannedDryDays, 1) : 0;
-      document.getElementById('dry-ring').style.strokeDashoffset = circumference - (circumference * dryRatio);
-
-      document.getElementById('drinks-status-badge').innerText = totalDrinks <= totalPlannedDrinks ? 'ON TRACK ✓' : 'OVER TARGET';
-      document.getElementById('dry-status-badge').innerText = dryDaysCount >= (plannedDryDays - (7 - weekDays.filter(d => d <= new Date()).length)) ? 'ON TRACK ✓' : 'NEEDS FOCUS';
-
-      const firstDayLabel = weekDays[0].toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
-      const lastDayLabel = weekDays[6].toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
-      document.getElementById('week-range-label').innerText = `${firstDayLabel} - ${lastDayLabel}`;
+      const circ = 251.2;
+      document.getElementById('drinks-ring').style.strokeDashoffset = circ - (circ * (totalP > 0 ? Math.min(totalD/totalP, 1) : 0));
+      document.getElementById('dry-ring').style.strokeDashoffset = circ - (circ * (planDry > 0 ? Math.min(dryC/planDry, 1) : 0));
+      document.getElementById('drinks-status-badge').innerText = totalD <= totalP ? 'ON TRACK ✓' : 'OVER TARGET';
+      
+      const pDaysPassed = weekDays.filter(d => d <= new Date()).length;
+      document.getElementById('dry-status-badge').innerText = dryC >= (planDry - (7 - pDaysPassed)) ? 'ON TRACK ✓' : 'NEEDS FOCUS';
+      document.getElementById('week-range-label').innerText = `${weekDays[0].toLocaleDateString('en-US', { month: 'short', day: 'numeric' })} - ${weekDays[6].toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}`;
     }
 
-    // Modal: Single Day Plan
-    function openSinglePlanModal(dateStr) {
-      targetSingleDate = dateStr;
-      const parts = dateStr.split('-');
-      const d = new Date(parts[0], parts[1] - 1, parts[2]);
-      const dateName = d.toLocaleDateString('en-US', { weekday: 'long', month: 'short', day: 'numeric' });
+    // --- Challenge Logic ---
+    function startChallenge(type) {
+      appData.challenge = { active: true, type: type, startDate: formatDate(new Date()) };
+      saveState(); renderChallenges();
+    }
+    
+    function quitChallenge() {
+      if(confirm("Are you sure you want to quit this challenge?")) {
+        appData.challenge = null; saveState(); renderChallenges();
+      }
+    }
+
+    function renderChallenges() {
+      if (!appData.challenge || !appData.challenge.active) {
+        document.getElementById('chal-selection').style.display = 'block';
+        document.getElementById('chal-active').style.display = 'none';
+        return;
+      }
       
-      document.getElementById('singleModalTitle').innerText = `Plan for ${dateName}`;
-      document.getElementById('singleModalInput').value = appData.plans[dateStr] !== undefined ? appData.plans[dateStr] : 0;
+      document.getElementById('chal-selection').style.display = 'none';
+      document.getElementById('chal-active').style.display = 'block';
+
+      const chal = appData.challenge;
+      const isWeekNight = chal.type === 'weeknight';
+      const colorHex = isWeekNight ? 'var(--chal-purple)' : 'var(--chal-green)';
+      const bgHex = isWeekNight ? 'var(--chal-purple-bg)' : 'var(--chal-green-bg)';
+      
+      document.getElementById('chal-title').innerText = isWeekNight ? 'Week Night Dry' : 'Fully Dry';
+      
+      const startParts = chal.startDate.split('-');
+      const sDate = new Date(startParts[0], startParts[1]-1, startParts[2]);
+      const eDate = new Date(sDate); eDate.setDate(eDate.getDate() + 29);
+      
+      document.getElementById('chal-dates').innerText = `${sDate.toLocaleDateString('en-US',{month:'2-digit',day:'2-digit',year:'2-digit'})} - ${eDate.toLocaleDateString('en-US',{month:'2-digit',day:'2-digit',year:'2-digit'})}`;
+      document.getElementById('chal-arc-path').style.stroke = colorHex;
+      
+      const badge = document.getElementById('chal-badge');
+      badge.style.background = bgHex; badge.style.color = colorHex;
+
+      // Build Grid
+      const grid = document.getElementById('chal-grid');
+      grid.innerHTML = '<div style="text-align:center; font-size:11px; font-weight:800; color:var(--text-muted);">M</div><div style="text-align:center; font-size:11px; font-weight:800; color:var(--text-muted);">T</div><div style="text-align:center; font-size:11px; font-weight:800; color:var(--text-muted);">W</div><div style="text-align:center; font-size:11px; font-weight:800; color:var(--text-muted);">T</div><div style="text-align:center; font-size:11px; font-weight:800; color:var(--text-muted);">F</div><div style="text-align:center; font-size:11px; font-weight:800; color:var(--text-muted);">S</div><div style="text-align:center; font-size:11px; font-weight:800; color:var(--text-muted);">S</div>';
+
+      const startDayOfWeek = sDate.getDay(); // 0=Sun, 1=Mon
+      const offset = (startDayOfWeek + 6) % 7; // Convert to Mon=0
+      
+      for(let i=0; i<offset; i++) {
+        grid.innerHTML += `<div class="chal-box empty"></div>`;
+      }
+
+      let successCount = 0;
+      let targetDaysInChallenge = 0;
+      const today = new Date();
+      today.setHours(0,0,0,0);
+
+      for(let i=0; i<30; i++) {
+        const d = new Date(sDate); d.setDate(d.getDate() + i);
+        const dStr = formatDate(d);
+        const jsDay = d.getDay();
+        const isExempt = isWeekNight && (jsDay === 5 || jsDay === 6); // Fri or Sat
+        
+        let boxClass = 'chal-box future';
+        let boxText = '';
+
+        if(isExempt) {
+          boxClass = 'chal-box exempt'; boxText = '✕';
+        } else {
+          targetDaysInChallenge++;
+          if (d <= today) {
+            const logged = appData.logs[dStr];
+            if (logged === 0) {
+              successCount++;
+              boxClass = `chal-box ${isWeekNight ? 'success-purple' : 'success-green'}`;
+              boxText = '✓';
+            } else if (logged > 0) {
+              boxClass = 'chal-box fail'; boxText = '✕';
+            } else {
+              // Not logged yet (pending/fail)
+              boxClass = 'chal-box future'; 
+            }
+          }
+        }
+        grid.innerHTML += `<div class="${boxClass}">${boxText}</div>`;
+      }
+
+      const pct = targetDaysInChallenge > 0 ? Math.round((successCount / targetDaysInChallenge) * 100) : 0;
+      document.getElementById('chal-percent').innerText = `${pct}%`;
+      badge.innerText = `✓ ${successCount} On Plan`;
+      
+      const arcLen = 110; // SVG dasharray for the semicircle
+      document.getElementById('chal-arc-path').style.strokeDashoffset = arcLen - (arcLen * (pct/100));
+    }
+
+    // --- Modals ---
+    function openSinglePlanModal(dStr) {
+      targetSingleDate = dStr;
+      const p = dStr.split('-'); const d = new Date(p[0], p[1]-1, p[2]);
+      document.getElementById('singleModalTitle').innerText = `Plan for ${d.toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric' })}`;
+      document.getElementById('singleModalInput').value = appData.plans[dStr] || 0;
       document.getElementById('singlePlanModal').style.display = 'flex';
     }
-
     function saveSinglePlan() {
-      const val = parseInt(document.getElementById('singleModalInput').value, 10);
-      if (!isNaN(val) && targetSingleDate) {
-        appData.plans[targetSingleDate] = Math.max(0, val);
-        saveState();
-      }
-      closeModal('singlePlanModal');
-      render();
+      const v = parseInt(document.getElementById('singleModalInput').value, 10);
+      if (!isNaN(v) && targetSingleDate) { appData.plans[targetSingleDate] = Math.max(0, v); saveState(); }
+      closeModal('singlePlanModal'); renderTracker();
     }
-
-    // Modal: Full Week Plan
     function openWeeklyPlanModal() {
-      const baseMonday = getMonday(new Date());
-      baseMonday.setDate(baseMonday.getDate() + (weekOffset * 7));
+      const baseM = getMonday(new Date()); baseM.setDate(baseM.getDate() + (weekOffset * 7));
       tempWeeklyPlans = {};
-
-      const listContainer = document.getElementById('weekPlanList');
-      listContainer.innerHTML = '';
+      const list = document.getElementById('weekPlanList'); list.innerHTML = '';
       const dayNames = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
-
       for (let i = 0; i < 7; i++) {
-        const d = new Date(baseMonday);
-        d.setDate(d.getDate() + i);
-        const dStr = formatDate(d);
-        const currentTarget = appData.plans[dStr] !== undefined ? appData.plans[dStr] : 0;
-        tempWeeklyPlans[dStr] = currentTarget;
-
-        const row = document.createElement('div');
-        row.className = 'week-plan-row';
-        row.innerHTML = `
-          <div>
-            <div class="week-plan-day-label">${dayNames[i]}</div>
-            <div class="week-plan-date-label">${d.toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}</div>
-          </div>
-          <div style="display: flex; align-items: center; gap: 10px;">
-            <button class="mini-btn" onclick="adjustTempWeeklyPlan('${dStr}', -1)">−</button>
-            <span id="temp-val-${dStr}" style="font-weight: 800; font-size: 16px; min-width: 24px; text-align: center;">${currentTarget}</span>
-            <button class="mini-btn" onclick="adjustTempWeeklyPlan('${dStr}', 1)">+</button>
-          </div>
-        `;
-        listContainer.appendChild(row);
+        const d = new Date(baseM); d.setDate(d.getDate() + i); const dStr = formatDate(d);
+        const cur = appData.plans[dStr] || 0; tempWeeklyPlans[dStr] = cur;
+        list.innerHTML += `<div class="week-plan-row">
+          <div><div style="font-weight:800; font-size:14px;">${dayNames[i]}</div><div style="font-size:11px; color:var(--text-muted);">${d.toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}</div></div>
+          <div style="display:flex; align-items:center; gap:10px;">
+            <button class="mini-btn" onclick="adjTemp('${dStr}', -1)">−</button>
+            <span id="t-val-${dStr}" style="font-weight:800; font-size:16px; min-width:24px; text-align:center;">${cur}</span>
+            <button class="mini-btn" onclick="adjTemp('${dStr}', 1)">+</button>
+          </div></div>`;
       }
-
       document.getElementById('weekPlanModal').style.display = 'flex';
     }
-
-    function adjustTempWeeklyPlan(dateStr, delta) {
-      const cur = tempWeeklyPlans[dateStr] || 0;
-      const next = Math.max(0, cur + delta);
-      tempWeeklyPlans[dateStr] = next;
-      document.getElementById(`temp-val-${dateStr}`).innerText = next;
+    function adjTemp(dStr, delta) {
+      tempWeeklyPlans[dStr] = Math.max(0, (tempWeeklyPlans[dStr] || 0) + delta);
+      document.getElementById(`t-val-${dStr}`).innerText = tempWeeklyPlans[dStr];
     }
-
     function saveWeeklyPlan() {
-      Object.keys(tempWeeklyPlans).forEach(dateStr => {
-        appData.plans[dateStr] = tempWeeklyPlans[dateStr];
-      });
-      saveState();
-      closeModal('weekPlanModal');
-      render();
+      Object.keys(tempWeeklyPlans).forEach(k => appData.plans[k] = tempWeeklyPlans[k]);
+      saveState(); closeModal('weekPlanModal'); renderTracker();
     }
-
-    function closeModal(modalId) {
-      document.getElementById(modalId).style.display = 'none';
-    }
-
-    // Backup & Restore
+    function closeModal(id) { document.getElementById(id).style.display = 'none'; }
     function exportData() {
-      const blob = new Blob([JSON.stringify(appData, null, 2)], { type: 'application/json' });
-      const url = URL.createObjectURL(blob);
       const a = document.createElement('a');
-      a.href = url;
-      a.download = `sunnyside_backup_${formatDate(new Date())}.json`;
-      a.click();
+      a.href = URL.createObjectURL(new Blob([JSON.stringify(appData, null, 2)], { type: 'application/json' }));
+      a.download = `drinks_backup_${formatDate(new Date())}.json`; a.click();
     }
 
-    function importData(e) {
-      const file = e.target.files[0];
-      if (!file) return;
-      const reader = new FileReader();
-      reader.onload = function(evt) {
-        try {
-          const parsed = JSON.parse(evt.target.result);
-          if (parsed.logs || parsed.plans) {
-            appData = parsed;
-            saveState();
-            render();
-            alert('Backup successfully restored!');
-          } else {
-            alert('Invalid backup file.');
-          }
-        } catch(err) {
-          alert('Error reading backup file.');
-        }
-      };
-      reader.readAsText(file);
-    }
-
-    render();
+    // Initialize
+    renderTracker();
   </script>
 </body>
 </html>
