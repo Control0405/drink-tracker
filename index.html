@@ -399,14 +399,15 @@
     }
 
     .btn-update-plan {
-      background: none;
+      background: #ffffff;
       border: 1px solid var(--border-gray);
       border-radius: 12px;
-      padding: 6px 12px;
+      padding: 8px 14px;
       font-size: 13px;
       font-weight: 700;
-      color: var(--text-dark);
+      color: var(--primary-blue);
       cursor: pointer;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.05);
     }
 
     .breakdown-table {
@@ -446,16 +447,16 @@
     }
 
     .mini-btn {
-      width: 28px;
-      height: 28px;
+      width: 30px;
+      height: 30px;
       border-radius: 50%;
       border: 1px solid var(--border-gray);
       background: white;
-      font-size: 16px;
+      font-size: 18px;
       display: flex;
       align-items: center;
       justify-content: center;
-      color: var(--text-muted);
+      color: var(--text-dark);
       cursor: pointer;
     }
 
@@ -473,9 +474,14 @@
     .row-plan {
       font-size: 13px;
       font-weight: 700;
-      color: var(--text-muted);
-      width: 40px;
-      text-align: right;
+      color: var(--text-dark);
+      background: #f1f5f9;
+      padding: 4px 10px;
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      cursor: pointer;
     }
 
     .modal {
@@ -484,49 +490,84 @@
       left: 0;
       right: 0;
       bottom: 0;
-      background: rgba(0, 0, 0, 0.4);
+      background: rgba(0, 0, 0, 0.45);
       display: none;
       align-items: center;
       justify-content: center;
       z-index: 100;
       padding: 16px;
+      backdrop-filter: blur(2px);
     }
 
     .modal-box {
       background: white;
-      border-radius: 20px;
-      padding: 20px;
-      max-width: 340px;
+      border-radius: 24px;
+      padding: 22px;
+      max-width: 360px;
       width: 100%;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.15);
     }
 
     .modal-box h3 {
-      margin-bottom: 12px;
       font-size: 18px;
+      font-weight: 800;
+      text-align: center;
+      margin-bottom: 6px;
+    }
+
+    .modal-subtitle {
+      font-size: 12px;
+      color: var(--text-muted);
+      text-align: center;
+      margin-bottom: 16px;
     }
 
     .modal-input {
       width: 100%;
-      padding: 10px;
-      font-size: 18px;
-      border-radius: 10px;
-      border: 1px solid var(--border-gray);
-      margin-bottom: 16px;
+      padding: 12px;
+      font-size: 20px;
+      border-radius: 12px;
+      border: 1.5px solid var(--border-gray);
+      margin-bottom: 18px;
       text-align: center;
+      font-weight: 700;
     }
 
     .modal-actions {
       display: flex;
-      gap: 8px;
+      gap: 10px;
     }
 
     .modal-btn {
       flex: 1;
-      padding: 10px;
-      border-radius: 10px;
+      padding: 12px;
+      border-radius: 12px;
       font-weight: 700;
+      font-size: 14px;
       border: none;
       cursor: pointer;
+    }
+
+    .week-plan-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 8px 4px;
+      border-bottom: 1px solid #f1f5f9;
+    }
+
+    .week-plan-row:last-child {
+      border-bottom: none;
+    }
+
+    .week-plan-day-label {
+      font-weight: 800;
+      font-size: 14px;
+    }
+
+    .week-plan-date-label {
+      font-size: 11px;
+      color: var(--text-muted);
     }
   </style>
 </head>
@@ -577,7 +618,7 @@
           <button class="stepper-btn" onclick="modifyDrinks(1)">+</button>
         </div>
 
-        <div class="card-footer-plan" onclick="promptDailyPlan()">
+        <div class="card-footer-plan" onclick="openSinglePlanModal(formatDate(selectedDate))">
           <span>TODAY'S PLAN</span>
           <span id="plan-display">0 drinks ✏️</span>
         </div>
@@ -593,7 +634,6 @@
       </div>
 
       <div class="week-cards-row">
-        <!-- Drinks Summary -->
         <div class="summary-card drinks-card">
           <div class="summary-card-header" id="drinks-status-badge">ON TRACK ✓</div>
           <div class="summary-card-body">
@@ -611,7 +651,6 @@
           <div class="summary-card-footer" id="week-drinks-plan">0 drinks THIS WEEK'S PLAN</div>
         </div>
 
-        <!-- Dry Days Summary -->
         <div class="summary-card dry-card">
           <div class="summary-card-header" id="dry-status-badge">ON TRACK ✓</div>
           <div class="summary-card-body">
@@ -632,20 +671,35 @@
 
       <div class="section-header">
         <div class="section-title">Daily Breakdown</div>
-        <button class="btn-update-plan" onclick="promptBulkPlan()">✏️ Update Plan</button>
+        <button class="btn-update-plan" onclick="openWeeklyPlanModal()">✏️ Update Plan</button>
       </div>
 
       <div class="breakdown-table" id="breakdown-rows"></div>
     </div>
   </div>
 
-  <div class="modal" id="planModal">
+  <!-- Single Day Plan Modal -->
+  <div class="modal" id="singlePlanModal">
     <div class="modal-box">
-      <h3 id="modalTitle">Set Drinks Plan</h3>
-      <input type="number" id="modalPlanInput" class="modal-input" min="0" max="20" />
+      <h3 id="singleModalTitle">Plan Target</h3>
+      <div class="modal-subtitle">Set drink target for this date</div>
+      <input type="number" id="singleModalInput" class="modal-input" min="0" max="25" />
       <div class="modal-actions">
-        <button class="modal-btn" style="background: #e2e8f0;" onclick="closeModal()">Cancel</button>
-        <button class="modal-btn" style="background: var(--primary-blue); color: white;" onclick="saveModalPlan()">Save</button>
+        <button class="modal-btn" style="background: #e2e8f0;" onclick="closeModal('singlePlanModal')">Cancel</button>
+        <button class="modal-btn" style="background: var(--primary-blue); color: white;" onclick="saveSinglePlan()">Save Target</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Interactive 7-Day Week Planner Modal -->
+  <div class="modal" id="weekPlanModal">
+    <div class="modal-box" style="max-height: 85vh; display: flex; flex-direction: column;">
+      <h3>Plan This Week</h3>
+      <div class="modal-subtitle">Set custom targets for each day</div>
+      <div id="weekPlanList" style="overflow-y: auto; flex: 1; margin-bottom: 16px; padding-right: 4px;"></div>
+      <div class="modal-actions">
+        <button class="modal-btn" style="background: #e2e8f0;" onclick="closeModal('weekPlanModal')">Cancel</button>
+        <button class="modal-btn" style="background: var(--primary-blue); color: white;" onclick="saveWeeklyPlan()">Save Week</button>
       </div>
     </div>
   </div>
@@ -660,6 +714,8 @@
     let activeView = 'day';
     let selectedDate = new Date();
     let weekOffset = 0;
+    let targetSingleDate = null;
+    let tempWeeklyPlans = {};
 
     function getMonday(d) {
       d = new Date(d);
@@ -722,7 +778,7 @@
         weekDays.push(d);
       }
 
-      // Strip
+      // 1. Day Strip
       const dayNames = ['M', 'T', 'W', 'T', 'F', 'S', 'S'];
       const stripContainer = document.getElementById('strip-container');
       stripContainer.innerHTML = '';
@@ -757,7 +813,7 @@
         stripContainer.appendChild(col);
       });
 
-      // Day Card
+      // 2. Day View Card
       const isToday = selectedStr === todayStr;
       document.getElementById('day-card-title').innerText = isToday ? 'Today' : selectedDate.toLocaleDateString('en-US', { weekday: 'long' });
       document.getElementById('day-card-date').innerText = selectedDate.toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' });
@@ -768,7 +824,7 @@
       const dayPlan = appData.plans[selectedStr] !== undefined ? appData.plans[selectedStr] : 0;
       document.getElementById('plan-display').innerText = `${dayPlan} drinks ✏️`;
 
-      // Week View
+      // 3. Week View Breakdown
       let totalDrinks = 0;
       let totalPlannedDrinks = 0;
       let dryDaysCount = 0;
@@ -819,7 +875,9 @@
             <div class="mini-badge" style="background: ${badgeBg}; color: ${badgeColor};">${displayVal}</div>
             <button class="mini-btn" onclick="modifyDrinks(1, '${dStr}')">+</button>
           </div>
-          <div class="row-plan">${plan} →</div>
+          <div class="row-plan" onclick="openSinglePlanModal('${dStr}')" title="Tap to change target">
+            ${plan} ✏️
+          </div>
         `;
         breakdownRows.appendChild(row);
       });
@@ -844,43 +902,85 @@
       document.getElementById('week-range-label').innerText = `${firstDayLabel} - ${lastDayLabel}`;
     }
 
-    let targetPlanDate = null;
-    function promptDailyPlan() {
-      targetPlanDate = formatDate(selectedDate);
-      document.getElementById('modalTitle').innerText = `Target for ${targetPlanDate}`;
-      document.getElementById('modalPlanInput').value = appData.plans[targetPlanDate] !== undefined ? appData.plans[targetPlanDate] : 0;
-      document.getElementById('planModal').style.display = 'flex';
+    // Modal: Single Day Plan
+    function openSinglePlanModal(dateStr) {
+      targetSingleDate = dateStr;
+      const parts = dateStr.split('-');
+      const d = new Date(parts[0], parts[1] - 1, parts[2]);
+      const dateName = d.toLocaleDateString('en-US', { weekday: 'long', month: 'short', day: 'numeric' });
+      
+      document.getElementById('singleModalTitle').innerText = `Plan for ${dateName}`;
+      document.getElementById('singleModalInput').value = appData.plans[dateStr] !== undefined ? appData.plans[dateStr] : 0;
+      document.getElementById('singlePlanModal').style.display = 'flex';
     }
 
-    function promptBulkPlan() {
-      const target = prompt("Enter standard daily drink allowance for this week (e.g., 0 for dry days, 2 for weekends):", "0");
-      if (target !== null) {
-        const baseMonday = getMonday(new Date());
-        baseMonday.setDate(baseMonday.getDate() + (weekOffset * 7));
-        for (let i = 0; i < 7; i++) {
-          const d = new Date(baseMonday);
-          d.setDate(d.getDate() + i);
-          appData.plans[formatDate(d)] = parseInt(target, 10) || 0;
-        }
-        saveState();
-        render();
-      }
-    }
-
-    function saveModalPlan() {
-      const val = parseInt(document.getElementById('modalPlanInput').value, 10);
-      if (!isNaN(val) && targetPlanDate) {
-        appData.plans[targetPlanDate] = val;
+    function saveSinglePlan() {
+      const val = parseInt(document.getElementById('singleModalInput').value, 10);
+      if (!isNaN(val) && targetSingleDate) {
+        appData.plans[targetSingleDate] = Math.max(0, val);
         saveState();
       }
-      closeModal();
+      closeModal('singlePlanModal');
       render();
     }
 
-    function closeModal() {
-      document.getElementById('planModal').style.display = 'none';
+    // Modal: Full Week Plan
+    function openWeeklyPlanModal() {
+      const baseMonday = getMonday(new Date());
+      baseMonday.setDate(baseMonday.getDate() + (weekOffset * 7));
+      tempWeeklyPlans = {};
+
+      const listContainer = document.getElementById('weekPlanList');
+      listContainer.innerHTML = '';
+      const dayNames = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
+
+      for (let i = 0; i < 7; i++) {
+        const d = new Date(baseMonday);
+        d.setDate(d.getDate() + i);
+        const dStr = formatDate(d);
+        const currentTarget = appData.plans[dStr] !== undefined ? appData.plans[dStr] : 0;
+        tempWeeklyPlans[dStr] = currentTarget;
+
+        const row = document.createElement('div');
+        row.className = 'week-plan-row';
+        row.innerHTML = `
+          <div>
+            <div class="week-plan-day-label">${dayNames[i]}</div>
+            <div class="week-plan-date-label">${d.toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}</div>
+          </div>
+          <div style="display: flex; align-items: center; gap: 10px;">
+            <button class="mini-btn" onclick="adjustTempWeeklyPlan('${dStr}', -1)">−</button>
+            <span id="temp-val-${dStr}" style="font-weight: 800; font-size: 16px; min-width: 24px; text-align: center;">${currentTarget}</span>
+            <button class="mini-btn" onclick="adjustTempWeeklyPlan('${dStr}', 1)">+</button>
+          </div>
+        `;
+        listContainer.appendChild(row);
+      }
+
+      document.getElementById('weekPlanModal').style.display = 'flex';
     }
 
+    function adjustTempWeeklyPlan(dateStr, delta) {
+      const cur = tempWeeklyPlans[dateStr] || 0;
+      const next = Math.max(0, cur + delta);
+      tempWeeklyPlans[dateStr] = next;
+      document.getElementById(`temp-val-${dateStr}`).innerText = next;
+    }
+
+    function saveWeeklyPlan() {
+      Object.keys(tempWeeklyPlans).forEach(dateStr => {
+        appData.plans[dateStr] = tempWeeklyPlans[dateStr];
+      });
+      saveState();
+      closeModal('weekPlanModal');
+      render();
+    }
+
+    function closeModal(modalId) {
+      document.getElementById(modalId).style.display = 'none';
+    }
+
+    // Backup & Restore
     function exportData() {
       const blob = new Blob([JSON.stringify(appData, null, 2)], { type: 'application/json' });
       const url = URL.createObjectURL(blob);
@@ -903,7 +1003,7 @@
             render();
             alert('Backup successfully restored!');
           } else {
-            alert('Invalid backup file format.');
+            alert('Invalid backup file.');
           }
         } catch(err) {
           alert('Error reading backup file.');
