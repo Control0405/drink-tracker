@@ -20,52 +20,51 @@
       --border-gray: #e2e8f0;
       
       /* Challenge Colors */
-      --chal-purple: #a855f7;
-      --chal-purple-bg: #faf5ff;
+      --chal-purple: #9333ea;
+      --chal-purple-bg: #f3e8ff;
       --chal-green: #84cc16;
-      --chal-green-bg: #f7fee7;
+      --chal-green-bg: #ecfccb;
 
       --safe-top: env(safe-area-inset-top, 20px);
       --safe-bottom: env(safe-area-inset-bottom, 20px);
     }
 
-    * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, sans-serif; -webkit-tap-highlight-color: transparent; user-select: none; }
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; -webkit-tap-highlight-color: transparent; user-select: none; }
     
     body {
       background-color: #f8fafc;
       color: var(--text-dark);
-      /* Extra padding for bottom nav */
-      padding-bottom: calc(var(--safe-bottom) + 80px);
+      padding-bottom: calc(var(--safe-bottom) + 85px);
       min-height: 100vh;
       overflow-x: hidden;
     }
 
-    /* --- TOP HEADER --- */
+    /* Top Header */
     .header-bg {
       background: linear-gradient(180deg, #1b8bf5 0%, var(--primary-blue) 100%);
-      padding: calc(var(--safe-top) + 12px) 18px 24px 18px;
+      padding: calc(var(--safe-top) + 12px) 18px 20px 18px;
       color: white;
       border-bottom-left-radius: 28px;
       border-bottom-right-radius: 28px;
       box-shadow: 0 4px 16px rgba(35, 148, 249, 0.25);
     }
-    .top-bar { display: flex; justify-content: space-between; align-items: center; margin-bottom: 18px; }
+    .top-bar { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; }
     .logo-area { display: flex; align-items: center; gap: 6px; font-size: 26px; font-weight: 800; letter-spacing: -0.5px; }
     .header-badges { display: flex; gap: 6px; }
     .header-badge { background: rgba(255, 255, 255, 0.2); border: 1px solid rgba(255, 255, 255, 0.4); padding: 5px 10px; border-radius: 20px; font-size: 11px; font-weight: 700; color: white; cursor: pointer; }
 
     .view-toggle { background: rgba(0, 0, 0, 0.12); border-radius: 30px; display: flex; padding: 3px; }
-    .toggle-btn { flex: 1; text-align: center; padding: 10px 0; border-radius: 25px; font-size: 15px; font-weight: 700; color: white; border: none; background: transparent; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 6px; transition: all 0.2s ease; }
+    .toggle-btn { flex: 1; text-align: center; padding: 9px 0; border-radius: 25px; font-size: 15px; font-weight: 700; color: white; border: none; background: transparent; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 6px; transition: all 0.2s ease; }
     .toggle-btn.active { background: var(--sun-yellow); color: #3b2c04; box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15); }
 
     .content-area { padding: 16px; max-width: 480px; margin: 0 auto; }
 
-    /* --- SHARED CARD UI --- */
-    .card { background: white; border-radius: 24px; padding: 24px 20px; border: 1px solid var(--border-gray); box-shadow: 0 4px 20px rgba(0, 0, 0, 0.04); text-align: center; overflow: hidden; margin-bottom: 16px; }
+    /* Cards */
+    .card { background: white; border-radius: 24px; padding: 22px 20px; border: 1px solid var(--border-gray); box-shadow: 0 4px 20px rgba(0, 0, 0, 0.04); text-align: center; overflow: hidden; margin-bottom: 16px; }
     .card-title { font-size: 24px; font-weight: 800; margin-bottom: 4px; }
     .card-subtitle { color: var(--text-muted); font-size: 14px; font-weight: 500; margin-bottom: 24px; }
 
-    /* --- TRACKER STYLES --- */
+    /* Tracker Day Strip */
     .day-strip { display: flex; justify-content: space-between; align-items: center; margin: 4px 0 16px 0; gap: 4px; }
     .nav-arrow { background: none; border: none; font-size: 18px; color: var(--text-muted); cursor: pointer; padding: 4px; }
     .strip-items { display: flex; justify-content: space-between; flex: 1; gap: 4px; }
@@ -78,14 +77,15 @@
     .selected-indicator { width: 0; height: 0; border-left: 5px solid transparent; border-right: 5px solid transparent; border-top: 5px solid var(--primary-blue); margin-top: -3px; visibility: hidden; }
     .strip-col.selected .selected-indicator { visibility: visible; }
 
+    /* Stepper */
     .stepper-container { position: relative; display: flex; align-items: center; justify-content: space-between; background: #90cdff; border-radius: 16px; height: 80px; padding: 0 8px; margin-bottom: 32px; }
     .stepper-btn { width: 60px; height: 60px; border: none; background: transparent; color: white; font-size: 40px; font-weight: 300; display: flex; align-items: center; justify-content: center; cursor: pointer; }
     .stepper-center { position: absolute; left: 50%; transform: translateX(-50%); width: 120px; height: 120px; background: white; border-radius: 50%; box-shadow: 0 6px 16px rgba(0, 0, 0, 0.1); display: flex; flex-direction: column; align-items: center; justify-content: center; }
     .stepper-num { font-size: 40px; font-weight: 800; color: var(--text-dark); line-height: 1; }
     .stepper-label { font-size: 12px; font-weight: 600; color: var(--text-muted); margin-top: 4px; }
-    .card-footer-plan { background: #e2f1ff; margin: 0 -20px -24px -20px; padding: 16px 20px; display: flex; justify-content: space-between; align-items: center; font-weight: 700; font-size: 14px; color: var(--text-dark); cursor: pointer; }
+    .card-footer-plan { background: #e2f1ff; margin: 0 -20px -22px -20px; padding: 16px 20px; display: flex; justify-content: space-between; align-items: center; font-weight: 700; font-size: 14px; color: var(--text-dark); cursor: pointer; }
 
-    /* --- WEEK VIEW STYLES --- */
+    /* Week View */
     .week-nav { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; }
     .week-nav-title { font-size: 18px; font-weight: 800; }
     .week-cards-row { display: flex; gap: 12px; margin-bottom: 24px; }
@@ -115,37 +115,113 @@
     .mini-badge { width: 34px; height: 34px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 14px; }
     .row-plan { font-size: 13px; font-weight: 700; color: var(--text-dark); background: #f1f5f9; padding: 4px 10px; border-radius: 8px; display: flex; align-items: center; gap: 4px; cursor: pointer; }
 
-    /* --- CHALLENGES TAB STYLES --- */
-    .chal-list-item { background: white; border-radius: 16px; border: 1px solid var(--border-gray); padding: 16px; margin-bottom: 12px; display: flex; justify-content: space-between; align-items: center; }
-    .chal-info h4 { font-size: 16px; font-weight: 800; margin-bottom: 4px; }
+    /* CHALLENGES SCREEN */
+    .chal-list-item { background: white; border-radius: 20px; border: 1px solid var(--border-gray); padding: 18px; margin-bottom: 14px; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 2px 10px rgba(0,0,0,0.03); }
+    .chal-info h4 { font-size: 17px; font-weight: 800; margin-bottom: 4px; }
     .chal-info p { font-size: 13px; color: var(--text-muted); }
-    .btn-join { background: var(--primary-blue); color: white; border: none; border-radius: 20px; padding: 8px 16px; font-weight: 700; font-size: 13px; cursor: pointer; }
+    .btn-join { color: white; border: none; border-radius: 20px; padding: 9px 18px; font-weight: 700; font-size: 13px; cursor: pointer; }
 
-    .arc-container { position: relative; width: 200px; height: 110px; margin: 0 auto 20px auto; display: flex; flex-direction: column; align-items: center; justify-content: flex-end; }
-    .arc-svg { position: absolute; top: 0; left: 0; width: 100%; height: 200px; }
-    .arc-text-large { font-size: 38px; font-weight: 800; line-height: 1; }
-    .arc-text-small { font-size: 13px; color: var(--text-muted); font-weight: 600; margin-top: 4px; }
-    .arc-badge { display: inline-flex; align-items: center; gap: 4px; padding: 4px 10px; border-radius: 12px; font-size: 12px; font-weight: 700; margin-top: 8px; }
-    
-    .chal-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 6px; background: #f8fafc; border-radius: 16px; padding: 16px; border: 1px solid var(--border-gray); }
-    .chal-grid-header { font-size: 12px; font-weight: 800; color: var(--text-dark); margin-bottom: 8px; }
-    .chal-box { aspect-ratio: 1; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 14px; font-weight: 700; }
+    /* Challenge Active Card */
+    .chal-active-card { background: white; border-radius: 28px; padding: 24px 20px 20px 20px; border: 1px solid var(--border-gray); box-shadow: 0 4px 20px rgba(0,0,0,0.05); }
+    .chal-header-row { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 12px; }
+    .chal-tag { font-size: 11px; font-weight: 800; color: var(--text-muted); letter-spacing: 0.8px; text-transform: uppercase; margin-bottom: 4px; }
+    .chal-main-title { font-size: 26px; font-weight: 800; color: var(--text-dark); margin-bottom: 2px; }
+    .chal-dates-text { font-size: 13px; color: var(--text-muted); font-weight: 600; }
+    .chal-top-icon { width: 44px; height: 44px; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 22px; }
+
+    /* Isolated Gauge Layout */
+    .gauge-wrapper {
+      position: relative;
+      width: 240px;
+      height: 120px;
+      margin: 10px auto 20px auto;
+    }
+    .gauge-svg {
+      width: 100%;
+      height: 100%;
+      overflow: visible;
+    }
+    .gauge-center-content {
+      position: absolute;
+      bottom: 2px;
+      left: 0;
+      right: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+    }
+    .gauge-pct { font-size: 38px; font-weight: 800; line-height: 1; color: var(--text-dark); }
+    .gauge-lbl { font-size: 12px; font-weight: 600; color: var(--text-muted); margin-top: 3px; }
+    .gauge-pill { display: inline-flex; align-items: center; gap: 4px; padding: 4px 12px; border-radius: 20px; font-size: 12px; font-weight: 700; margin-top: 6px; }
+
+    /* Calendar Grid Container */
+    .chal-cal-card {
+      background: white;
+      border: 1px solid var(--border-gray);
+      border-radius: 20px;
+      padding: 18px 14px;
+      margin-top: 10px;
+    }
+    .chal-cal-header-title {
+      font-size: 12px;
+      font-weight: 800;
+      letter-spacing: 0.5px;
+      color: var(--text-dark);
+      margin-bottom: 12px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .chal-grid {
+      display: grid;
+      grid-template-columns: repeat(7, 1fr);
+      gap: 6px;
+    }
+    .chal-grid-dayname {
+      text-align: center;
+      font-size: 11px;
+      font-weight: 800;
+      color: var(--text-muted);
+      padding-bottom: 4px;
+    }
+    .chal-box {
+      aspect-ratio: 1;
+      border-radius: 9px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 14px;
+      font-weight: 800;
+    }
     .chal-box.empty { background: transparent; }
     .chal-box.future { background: #f1f5f9; }
+    .chal-box.future-trophy { background: #fef3c7; border: 1.5px dashed #f59e0b; color: #b45309; }
+    .chal-box.today-pending { background: #eff6ff; border: 2px solid var(--primary-blue); color: var(--primary-blue); }
     .chal-box.exempt { background: #f1f5f9; color: #cbd5e1; }
     .chal-box.success-purple { background: var(--chal-purple); color: white; }
     .chal-box.success-green { background: var(--chal-green); color: white; }
     .chal-box.fail { background: #ef4444; color: white; }
 
-    .btn-quit { background: none; border: none; color: #ef4444; font-size: 14px; font-weight: 700; text-decoration: underline; margin-top: 20px; cursor: pointer; }
+    .btn-quit {
+      display: block;
+      margin: 20px auto 0 auto;
+      background: none;
+      border: none;
+      color: #ef4444;
+      font-size: 14px;
+      font-weight: 700;
+      text-decoration: underline;
+      cursor: pointer;
+    }
 
-    /* --- BOTTOM NAV --- */
+    /* Bottom Navigation */
     .bottom-nav { position: fixed; bottom: 0; left: 0; right: 0; background: white; border-top: 1px solid var(--border-gray); display: flex; padding-bottom: var(--safe-bottom); z-index: 50; }
     .nav-tab { flex: 1; padding: 12px 0; display: flex; flex-direction: column; align-items: center; gap: 4px; color: var(--text-muted); font-size: 11px; font-weight: 700; cursor: pointer; }
     .nav-tab.active { color: var(--primary-blue); }
     .nav-tab-icon { font-size: 22px; }
 
-    /* --- MODALS --- */
+    /* Modals */
     .modal { position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0, 0, 0, 0.45); display: none; align-items: center; justify-content: center; z-index: 100; padding: 16px; backdrop-filter: blur(2px); }
     .modal-box { background: white; border-radius: 24px; padding: 22px; max-width: 360px; width: 100%; box-shadow: 0 10px 25px rgba(0,0,0,0.15); }
     .modal-box h3 { font-size: 18px; font-weight: 800; text-align: center; margin-bottom: 6px; }
@@ -158,12 +234,14 @@
 </head>
 <body>
 
-  <!-- Tracker Top Header -->
+  <!-- Top Tracker Header -->
   <div id="header-tracker" class="header-bg">
     <div class="top-bar">
       <div class="logo-area"><span style="font-size: 20px;">☀️</span> sunnyside</div>
       <div class="header-badges">
         <button class="header-badge" onclick="exportData()">💾 BACKUP</button>
+        <button class="header-badge" onclick="document.getElementById('importFile').click()">📂 RESTORE</button>
+        <input type="file" id="importFile" accept=".json" style="display:none;" onchange="importData(event)" />
       </div>
     </div>
     <div class="view-toggle">
@@ -172,7 +250,7 @@
     </div>
   </div>
 
-  <!-- Challenges Top Header -->
+  <!-- Top Challenges Header -->
   <div id="header-challenges" class="header-bg" style="display:none; padding-bottom: 16px; border-bottom-left-radius: 0; border-bottom-right-radius: 0;">
     <div class="top-bar" style="margin-bottom: 0;">
       <div class="logo-area">🏆 Challenges</div>
@@ -181,9 +259,8 @@
 
   <div class="content-area">
 
-    <!-- ==================== TRACKER TAB ==================== -->
+    <!-- TRACKER TAB -->
     <div id="tab-tracker">
-      <!-- DAY VIEW -->
       <div id="view-day">
         <div class="day-strip">
           <button class="nav-arrow" onclick="shiftWeek(-1)">‹</button>
@@ -211,7 +288,6 @@
         </div>
       </div>
 
-      <!-- WEEK VIEW -->
       <div id="view-week" style="display: none;">
         <div class="week-nav">
           <button class="nav-arrow" onclick="shiftWeek(-1)">‹</button>
@@ -263,17 +339,17 @@
       </div>
     </div>
 
-    <!-- ==================== CHALLENGES TAB ==================== -->
+    <!-- CHALLENGES TAB -->
     <div id="tab-challenges" style="display: none;">
       
       <!-- Selection Screen -->
       <div id="chal-selection">
-        <h3 style="margin-bottom: 16px;">Join a challenge today</h3>
+        <h3 style="margin-bottom: 16px; font-size: 20px;">Join a challenge today</h3>
         
         <div class="chal-list-item">
           <div class="chal-info">
             <h4>Week Night Dry</h4>
-            <p>30-Day Alcohol Reset</p>
+            <p>30-Day Alcohol Reset (Sun–Thu)</p>
           </div>
           <button class="btn-join" style="background: var(--chal-purple);" onclick="startChallenge('weeknight')">Join</button>
         </div>
@@ -281,30 +357,46 @@
         <div class="chal-list-item">
           <div class="chal-info">
             <h4>Fully Dry</h4>
-            <p>30-Day Alcohol Reset</p>
+            <p>30-Day Total Alcohol Reset</p>
           </div>
           <button class="btn-join" style="background: var(--chal-green);" onclick="startChallenge('fullydry')">Join</button>
         </div>
       </div>
 
-      <!-- Active Challenge Dashboard -->
-      <div id="chal-active" class="card" style="display: none; padding-top: 32px;">
-        <div class="card-subtitle" style="text-transform: uppercase; letter-spacing: 1px; margin-bottom: 8px; font-size: 12px; font-weight: 800;" id="chal-type-label">30-DAY ALCOHOL RESET</div>
-        <div class="card-title" id="chal-title">Challenge Name</div>
-        <div class="card-subtitle" id="chal-dates">01/01/26 - 01/31/26</div>
-
-        <div class="arc-container">
-          <svg viewBox="0 0 100 50" class="arc-svg">
-            <path d="M 10 45 A 35 35 0 0 1 90 45" fill="none" stroke="#e2e8f0" stroke-width="8"/>
-            <path id="chal-arc-path" d="M 10 45 A 35 35 0 0 1 90 45" fill="none" stroke="var(--primary-blue)" stroke-width="8" stroke-dasharray="110" stroke-dashoffset="110" stroke-linecap="round" />
-          </svg>
-          <div class="arc-text-large" id="chal-percent">0%</div>
-          <div class="arc-text-small">Days on Target</div>
-          <div class="arc-badge" id="chal-badge">✓ 0 On Plan</div>
+      <!-- Active Challenge Screen -->
+      <div id="chal-active" class="chal-active-card" style="display: none;">
+        
+        <!-- Header -->
+        <div class="chal-header-row">
+          <div>
+            <div class="chal-tag" id="chal-type-label">30-DAY ALCOHOL RESET</div>
+            <div class="chal-main-title" id="chal-title">Fully Dry</div>
+            <div class="chal-dates-text" id="chal-dates">Loading dates...</div>
+          </div>
+          <div class="chal-top-icon" id="chal-badge-icon">🏆</div>
         </div>
 
-        <div style="text-align: left; background: white;">
-          <div class="chal-grid-header">🗓 CHALLENGE PROGRESS</div>
+        <!-- Gauge -->
+        <div class="gauge-wrapper">
+          <svg class="gauge-svg" viewBox="0 0 200 110">
+            <!-- Background Arc -->
+            <path d="M 20 100 A 80 80 0 0 1 180 100" fill="none" stroke="#f1f5f9" stroke-width="14" stroke-linecap="round" />
+            <!-- Active Fill Arc (Length = pi * 80 ~= 251.3) -->
+            <path id="chal-arc-path" d="M 20 100 A 80 80 0 0 1 180 100" fill="none" stroke="var(--chal-green)" stroke-width="14" stroke-linecap="round" stroke-dasharray="251.3" stroke-dashoffset="251.3" style="opacity: 0; transition: stroke-dashoffset 0.4s ease, opacity 0.2s;" />
+          </svg>
+          <div class="gauge-center-content">
+            <div class="gauge-pct" id="chal-percent">0%</div>
+            <div class="gauge-lbl">Days on Target</div>
+            <div class="gauge-pill" id="chal-badge">✓ 0 On Plan</div>
+          </div>
+        </div>
+
+        <!-- 30-Day Calendar -->
+        <div class="chal-cal-card">
+          <div class="chal-cal-header-title">
+            <span>🗓</span> <span id="chal-status-title">CHALLENGE IN PROGRESS</span>
+          </div>
+          
           <div class="chal-grid" id="chal-grid"></div>
         </div>
 
@@ -359,11 +451,9 @@
     let targetSingleDate = null;
     let tempWeeklyPlans = {};
 
-    function getMonday(d) {
-      d = new Date(d);
-      const day = d.getDay();
-      const diff = d.getDate() - day + (day === 0 ? -6 : 1);
-      return new Date(d.setDate(diff));
+    function parseDate(str) {
+      const p = str.split('-');
+      return new Date(parseInt(p[0], 10), parseInt(p[1], 10) - 1, parseInt(p[2], 10), 12, 0, 0);
     }
 
     function formatDate(d) {
@@ -373,9 +463,15 @@
       return `${year}-${month}-${day}`;
     }
 
+    function getMonday(d) {
+      d = new Date(d);
+      const day = d.getDay();
+      const diff = d.getDate() - day + (day === 0 ? -6 : 1);
+      return new Date(d.setDate(diff));
+    }
+
     function saveState() { localStorage.setItem(STORAGE_KEY, JSON.stringify(appData)); }
 
-    // --- Navigation Logic ---
     function switchMainTab(tab) {
       document.getElementById('nav-tracker').classList.toggle('active', tab === 'tracker');
       document.getElementById('nav-challenges').classList.toggle('active', tab === 'challenges');
@@ -399,14 +495,15 @@
       renderTracker();
     }
 
-    // --- Tracker Logic ---
     function shiftWeek(direction) { weekOffset += direction; selectedDate.setDate(selectedDate.getDate() + (direction * 7)); renderTracker(); }
-    function selectDate(dateStr) { const p = dateStr.split('-'); selectedDate = new Date(p[0], p[1]-1, p[2]); renderTracker(); }
+    function selectDate(dateStr) { selectedDate = parseDate(dateStr); renderTracker(); }
+
     function modifyDrinks(delta, targetDateStr = null) {
       const key = targetDateStr || formatDate(selectedDate);
       const cur = appData.logs[key] !== undefined ? appData.logs[key] : 0;
       appData.logs[key] = Math.max(0, cur + delta);
-      saveState(); renderTracker();
+      saveState();
+      renderTracker();
     }
 
     function renderTracker() {
@@ -465,7 +562,6 @@
         bRows.appendChild(row);
       });
 
-      // Week Cards
       document.getElementById('week-drinks-sum').innerText = totalD;
       document.getElementById('week-drinks-plan').innerText = `${totalP} drinks PLAN`;
       document.getElementById('week-dry-sum').innerText = dryC;
@@ -484,12 +580,15 @@
     // --- Challenge Logic ---
     function startChallenge(type) {
       appData.challenge = { active: true, type: type, startDate: formatDate(new Date()) };
-      saveState(); renderChallenges();
+      saveState();
+      renderChallenges();
     }
     
     function quitChallenge() {
       if(confirm("Are you sure you want to quit this challenge?")) {
-        appData.challenge = null; saveState(); renderChallenges();
+        appData.challenge = null;
+        saveState();
+        renderChallenges();
       }
     }
 
@@ -507,77 +606,128 @@
       const isWeekNight = chal.type === 'weeknight';
       const colorHex = isWeekNight ? 'var(--chal-purple)' : 'var(--chal-green)';
       const bgHex = isWeekNight ? 'var(--chal-purple-bg)' : 'var(--chal-green-bg)';
+      const successClass = isWeekNight ? 'success-purple' : 'success-green';
       
       document.getElementById('chal-title').innerText = isWeekNight ? 'Week Night Dry' : 'Fully Dry';
+      document.getElementById('chal-badge-icon').innerText = isWeekNight ? '🌙' : '🌿';
+      document.getElementById('chal-badge-icon').style.background = bgHex;
       
-      const startParts = chal.startDate.split('-');
-      const sDate = new Date(startParts[0], startParts[1]-1, startParts[2]);
-      const eDate = new Date(sDate); eDate.setDate(eDate.getDate() + 29);
+      // Calculate 30 full days based on initial day
+      const sDate = parseDate(chal.startDate);
+      const eDate = new Date(sDate);
+      eDate.setDate(eDate.getDate() + 29); // 30th day
       
-      document.getElementById('chal-dates').innerText = `${sDate.toLocaleDateString('en-US',{month:'2-digit',day:'2-digit',year:'2-digit'})} - ${eDate.toLocaleDateString('en-US',{month:'2-digit',day:'2-digit',year:'2-digit'})}`;
-      document.getElementById('chal-arc-path').style.stroke = colorHex;
+      const sStr = `${sDate.getMonth()+1}/${sDate.getDate()}/${String(sDate.getFullYear()).slice(-2)}`;
+      const eStr = `${eDate.getMonth()+1}/${eDate.getDate()}/${String(eDate.getFullYear()).slice(-2)}`;
+      document.getElementById('chal-dates').innerText = `${sStr} – ${eStr}`;
       
-      const badge = document.getElementById('chal-badge');
-      badge.style.background = bgHex; badge.style.color = colorHex;
-
-      // Build Grid
+      // Prepare Grid
       const grid = document.getElementById('chal-grid');
-      grid.innerHTML = '<div style="text-align:center; font-size:11px; font-weight:800; color:var(--text-muted);">M</div><div style="text-align:center; font-size:11px; font-weight:800; color:var(--text-muted);">T</div><div style="text-align:center; font-size:11px; font-weight:800; color:var(--text-muted);">W</div><div style="text-align:center; font-size:11px; font-weight:800; color:var(--text-muted);">T</div><div style="text-align:center; font-size:11px; font-weight:800; color:var(--text-muted);">F</div><div style="text-align:center; font-size:11px; font-weight:800; color:var(--text-muted);">S</div><div style="text-align:center; font-size:11px; font-weight:800; color:var(--text-muted);">S</div>';
+      grid.innerHTML = `
+        <div class="chal-grid-dayname">M</div>
+        <div class="chal-grid-dayname">T</div>
+        <div class="chal-grid-dayname">W</div>
+        <div class="chal-grid-dayname">T</div>
+        <div class="chal-grid-dayname">F</div>
+        <div class="chal-grid-dayname">S</div>
+        <div class="chal-grid-dayname">S</div>
+      `;
 
-      const startDayOfWeek = sDate.getDay(); // 0=Sun, 1=Mon
-      const offset = (startDayOfWeek + 6) % 7; // Convert to Mon=0
-      
-      for(let i=0; i<offset; i++) {
+      // Start padding for day of week (Monday=0 ... Sunday=6)
+      const startDow = (sDate.getDay() + 6) % 7;
+      for(let i = 0; i < startDow; i++) {
         grid.innerHTML += `<div class="chal-box empty"></div>`;
       }
 
       let successCount = 0;
       let targetDaysInChallenge = 0;
-      const today = new Date();
-      today.setHours(0,0,0,0);
+      const todayStr = formatDate(new Date());
+      const todayObj = parseDate(todayStr);
 
-      for(let i=0; i<30; i++) {
-        const d = new Date(sDate); d.setDate(d.getDate() + i);
-        const dStr = formatDate(d);
-        const jsDay = d.getDay();
-        const isExempt = isWeekNight && (jsDay === 5 || jsDay === 6); // Fri or Sat
-        
+      for(let i = 0; i < 30; i++) {
+        const curDate = new Date(sDate);
+        curDate.setDate(curDate.getDate() + i);
+        const curStr = formatDate(curDate);
+        const jsDay = curDate.getDay();
+        const isExempt = isWeekNight && (jsDay === 5 || jsDay === 6); // Fri & Sat exempt
+        const isLastDay = (i === 29);
+
         let boxClass = 'chal-box future';
         let boxText = '';
 
-        if(isExempt) {
-          boxClass = 'chal-box exempt'; boxText = '✕';
+        if (isExempt) {
+          boxClass = 'chal-box exempt';
+          boxText = '✕';
         } else {
           targetDaysInChallenge++;
-          if (d <= today) {
-            const logged = appData.logs[dStr];
+          
+          if (curStr === todayStr) {
+            // Today
+            const logged = appData.logs[curStr];
             if (logged === 0) {
               successCount++;
-              boxClass = `chal-box ${isWeekNight ? 'success-purple' : 'success-green'}`;
-              boxText = '✓';
+              boxClass = `chal-box ${successClass}`;
+              boxText = isLastDay ? '🏆' : '✓';
             } else if (logged > 0) {
-              boxClass = 'chal-box fail'; boxText = '✕';
+              boxClass = 'chal-box fail';
+              boxText = '✕';
             } else {
-              // Not logged yet (pending/fail)
-              boxClass = 'chal-box future'; 
+              boxClass = 'chal-box today-pending';
+              boxText = isLastDay ? '🏆' : '★';
+            }
+          } else if (curDate < todayObj) {
+            // Past day
+            const logged = appData.logs[curStr];
+            if (logged === 0) {
+              successCount++;
+              boxClass = `chal-box ${successClass}`;
+              boxText = isLastDay ? '🏆' : '✓';
+            } else {
+              boxClass = 'chal-box fail';
+              boxText = '✕';
+            }
+          } else {
+            // Future day
+            if (isLastDay) {
+              boxClass = 'chal-box future-trophy';
+              boxText = '🏆';
+            } else {
+              boxClass = 'chal-box future';
+              boxText = '';
             }
           }
         }
         grid.innerHTML += `<div class="${boxClass}">${boxText}</div>`;
       }
 
+      // Progress & Arc calculations
       const pct = targetDaysInChallenge > 0 ? Math.round((successCount / targetDaysInChallenge) * 100) : 0;
       document.getElementById('chal-percent').innerText = `${pct}%`;
+      
+      const badge = document.getElementById('chal-badge');
+      badge.style.background = bgHex;
+      badge.style.color = colorHex;
       badge.innerText = `✓ ${successCount} On Plan`;
       
-      const arcLen = 110; // SVG dasharray for the semicircle
-      document.getElementById('chal-arc-path').style.strokeDashoffset = arcLen - (arcLen * (pct/100));
+      const arcPath = document.getElementById('chal-arc-path');
+      arcPath.style.stroke = colorHex;
+      const arcLen = 251.3; // circumference of semicircle (r=80)
+      
+      if (pct === 0) {
+        arcPath.style.opacity = '0';
+        arcPath.style.strokeDashoffset = arcLen;
+      } else {
+        arcPath.style.opacity = '1';
+        arcPath.style.strokeDashoffset = arcLen - (arcLen * (pct / 100));
+      }
+
+      document.getElementById('chal-status-title').innerText = (todayObj > eDate) ? 'CHALLENGE COMPLETED!' : 'CHALLENGE IN PROGRESS';
     }
 
-    // --- Modals ---
+    // Modal Helpers
     function openSinglePlanModal(dStr) {
       targetSingleDate = dStr;
-      const p = dStr.split('-'); const d = new Date(p[0], p[1]-1, p[2]);
+      const d = parseDate(dStr);
       document.getElementById('singleModalTitle').innerText = `Plan for ${d.toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric' })}`;
       document.getElementById('singleModalInput').value = appData.plans[dStr] || 0;
       document.getElementById('singlePlanModal').style.display = 'flex';
@@ -614,13 +764,32 @@
       saveState(); closeModal('weekPlanModal'); renderTracker();
     }
     function closeModal(id) { document.getElementById(id).style.display = 'none'; }
+    
+    // Backup & Restore
     function exportData() {
       const a = document.createElement('a');
       a.href = URL.createObjectURL(new Blob([JSON.stringify(appData, null, 2)], { type: 'application/json' }));
-      a.download = `drinks_backup_${formatDate(new Date())}.json`; a.click();
+      a.download = `sunnyside_backup_${formatDate(new Date())}.json`; a.click();
+    }
+    function importData(e) {
+      const file = e.target.files[0];
+      if (!file) return;
+      const reader = new FileReader();
+      reader.onload = function(evt) {
+        try {
+          const parsed = JSON.parse(evt.target.result);
+          if (parsed.logs || parsed.plans) {
+            appData = parsed;
+            saveState();
+            renderTracker();
+            renderChallenges();
+            alert('Backup successfully restored!');
+          }
+        } catch(err) { alert('Error reading backup file.'); }
+      };
+      reader.readAsText(file);
     }
 
-    // Initialize
     renderTracker();
   </script>
 </body>
