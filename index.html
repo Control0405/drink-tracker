@@ -243,4 +243,476 @@
               <div class="ring-wrapper">
                 <svg width="100" height="100">
                   <circle cx="50" cy="50" r="40" stroke="#f1f5f9" stroke-width="8" fill="none" />
-                  <circle id="drinks-ring" cx="50" cy="50" r="40" stroke="#df1243" stroke-width="8" fill="none" stroke-linecap="round" stroke-dasharray="
+                  <circle id="drinks-ring" cx="50" cy="50" r="40" stroke="#df1243" stroke-width="8" fill="none" stroke-linecap="round" stroke-dasharray="251.2" stroke-dashoffset="251.2" transform="rotate(-90 50 50)" />
+                </svg>
+                <div style="position: absolute; text-align: center;">
+                  <div class="ring-val" id="week-drinks-sum">0</div>
+                  <div class="ring-label">Drinks</div>
+                </div>
+              </div>
+            </div>
+            <div class="summary-card-footer" id="week-drinks-plan">0 drinks PLAN</div>
+          </div>
+
+          <div class="summary-card dry-card">
+            <div class="summary-card-header" id="dry-status-badge">ON TRACK ✓</div>
+            <div class="summary-card-body">
+              <div class="ring-wrapper">
+                <svg width="100" height="100">
+                  <circle cx="50" cy="50" r="40" stroke="#f1f5f9" stroke-width="8" fill="none" />
+                  <circle id="dry-ring" cx="50" cy="50" r="40" stroke="#8b5cf6" stroke-width="8" fill="none" stroke-linecap="round" stroke-dasharray="251.2" stroke-dashoffset="251.2" transform="rotate(-90 50 50)" />
+                </svg>
+                <div style="position: absolute; text-align: center;">
+                  <div class="ring-val" id="week-dry-sum">0</div>
+                  <div class="ring-label">Dry Days</div>
+                </div>
+              </div>
+            </div>
+            <div class="summary-card-footer" id="week-dry-plan">0 dry days PLAN</div>
+          </div>
+        </div>
+
+        <div class="section-header">
+          <div class="section-title">Daily Breakdown</div>
+          <button class="btn-update-plan" onclick="openWeeklyPlanModal()">✏️ Update Plan</button>
+        </div>
+        <div class="breakdown-table" id="breakdown-rows"></div>
+      </div>
+    </div>
+
+    <!-- CHALLENGES TAB -->
+    <div id="tab-challenges" style="display: none;">
+      
+      <div id="chal-selection">
+        <h3 style="margin-bottom: 16px; font-size: 20px;">Join a challenge today</h3>
+        
+        <div class="chal-list-item">
+          <div class="chal-info">
+            <h4>Week Night Dry</h4>
+            <p>30-Day Alcohol Reset (Sun–Thu)</p>
+          </div>
+          <button class="btn-join" style="background: var(--purple-accent);" onclick="startChallenge('weeknight')">Join</button>
+        </div>
+
+        <div class="chal-list-item">
+          <div class="chal-info">
+            <h4>Fully Dry</h4>
+            <p>30-Day Total Alcohol Reset</p>
+          </div>
+          <button class="btn-join" style="background: var(--primary-accent);" onclick="startChallenge('fullydry')">Join</button>
+        </div>
+      </div>
+
+      <div id="chal-active" class="chal-active-card" style="display: none;">
+        <div class="chal-header-row">
+          <div>
+            <div class="chal-tag" id="chal-type-label">30-DAY ALCOHOL RESET</div>
+            <div class="chal-main-title" id="chal-title">Fully Dry</div>
+            <div class="chal-dates-text" id="chal-dates">Loading dates...</div>
+          </div>
+          <div class="chal-top-icon" id="chal-badge-icon">🏆</div>
+        </div>
+
+        <div class="gauge-wrapper">
+          <svg class="gauge-svg" viewBox="0 0 200 110">
+            <path d="M 20 100 A 80 80 0 0 1 180 100" fill="none" stroke="#f1f5f9" stroke-width="14" stroke-linecap="round" />
+            <path id="chal-arc-path" d="M 20 100 A 80 80 0 0 1 180 100" fill="none" stroke="var(--primary-accent)" stroke-width="14" stroke-linecap="round" stroke-dasharray="251.3" stroke-dashoffset="251.3" style="opacity: 0; transition: stroke-dashoffset 0.4s ease, opacity 0.2s;" />
+          </svg>
+          <div class="gauge-center-content">
+            <div class="gauge-pct" id="chal-percent">0%</div>
+            <div class="gauge-lbl">Days on Target</div>
+            <div class="gauge-pill" id="chal-badge">✓ 0 On Plan</div>
+          </div>
+        </div>
+
+        <div class="chal-cal-card">
+          <div class="chal-cal-header-title">
+            <span>🗓</span> <span id="chal-status-title">CHALLENGE IN PROGRESS</span>
+          </div>
+          <div class="chal-grid" id="chal-grid"></div>
+        </div>
+
+        <button class="btn-quit" onclick="quitChallenge()">Quit Challenge</button>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Bottom Navigation Bar -->
+  <div class="bottom-nav">
+    <div class="nav-tab active" id="nav-tracker" onclick="switchMainTab('tracker')">
+      <div class="nav-tab-icon">⚡</div>
+      Tracker
+    </div>
+    <div class="nav-tab" id="nav-challenges" onclick="switchMainTab('challenges')">
+      <div class="nav-tab-icon">🏆</div>
+      Challenges
+    </div>
+  </div>
+
+  <!-- Modals -->
+  <div class="modal" id="singlePlanModal">
+    <div class="modal-box">
+      <h3 id="singleModalTitle">Plan Target</h3>
+      <input type="number" id="singleModalInput" class="modal-input" min="0" max="25" />
+      <div class="modal-actions">
+        <button class="modal-btn" style="background: #e2e8f0;" onclick="closeModal('singlePlanModal')">Cancel</button>
+        <button class="modal-btn" style="background: var(--primary-accent); color: white;" onclick="saveSinglePlan()">Save Target</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal" id="weekPlanModal">
+    <div class="modal-box" style="max-height: 85vh; display: flex; flex-direction: column;">
+      <h3>Plan This Week</h3>
+      <div id="weekPlanList" style="overflow-y: auto; flex: 1; margin-bottom: 16px;"></div>
+      <div class="modal-actions">
+        <button class="modal-btn" style="background: #e2e8f0;" onclick="closeModal('weekPlanModal')">Cancel</button>
+        <button class="modal-btn" style="background: var(--primary-accent); color: white;" onclick="saveWeeklyPlan()">Save Week</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const STORAGE_KEY = 'tempo_local_data';
+    // Backwards compatibility migration from previous keys
+    let appData = JSON.parse(localStorage.getItem(STORAGE_KEY)) || 
+                  JSON.parse(localStorage.getItem('sunnyside_local_data')) || 
+                  { logs: {}, plans: {}, challenge: null };
+
+    let trackerActiveView = 'day';
+    let selectedDate = new Date();
+    let weekOffset = 0;
+    let targetSingleDate = null;
+    let tempWeeklyPlans = {};
+
+    function parseDate(str) {
+      const p = str.split('-');
+      return new Date(parseInt(p[0], 10), parseInt(p[1], 10) - 1, parseInt(p[2], 10), 12, 0, 0);
+    }
+
+    function formatDate(d) {
+      const year = d.getFullYear();
+      const month = String(d.getMonth() + 1).padStart(2, '0');
+      const day = String(d.getDate()).padStart(2, '0');
+      return `${year}-${month}-${day}`;
+    }
+
+    function getMonday(d) {
+      d = new Date(d);
+      const day = d.getDay();
+      const diff = d.getDate() - day + (day === 0 ? -6 : 1);
+      return new Date(d.setDate(diff));
+    }
+
+    function saveState() { localStorage.setItem(STORAGE_KEY, JSON.stringify(appData)); }
+
+    function switchMainTab(tab) {
+      document.getElementById('nav-tracker').classList.toggle('active', tab === 'tracker');
+      document.getElementById('nav-challenges').classList.toggle('active', tab === 'challenges');
+      
+      document.getElementById('tab-tracker').style.display = tab === 'tracker' ? 'block' : 'none';
+      document.getElementById('header-tracker').style.display = tab === 'tracker' ? 'block' : 'none';
+      
+      document.getElementById('tab-challenges').style.display = tab === 'challenges' ? 'block' : 'none';
+      document.getElementById('header-challenges').style.display = tab === 'challenges' ? 'block' : 'none';
+      
+      if(tab === 'tracker') renderTracker();
+      if(tab === 'challenges') renderChallenges();
+    }
+
+    function setTrackerView(view) {
+      trackerActiveView = view;
+      document.getElementById('btn-day').classList.toggle('active', view === 'day');
+      document.getElementById('btn-week').classList.toggle('active', view === 'week');
+      document.getElementById('view-day').style.display = view === 'day' ? 'block' : 'none';
+      document.getElementById('view-week').style.display = view === 'week' ? 'block' : 'none';
+      renderTracker();
+    }
+
+    function shiftWeek(direction) { weekOffset += direction; selectedDate.setDate(selectedDate.getDate() + (direction * 7)); renderTracker(); }
+    function selectDate(dateStr) { selectedDate = parseDate(dateStr); renderTracker(); }
+
+    function modifyDrinks(delta, targetDateStr = null) {
+      const key = targetDateStr || formatDate(selectedDate);
+      const cur = appData.logs[key] !== undefined ? appData.logs[key] : 0;
+      appData.logs[key] = Math.max(0, cur + delta);
+      saveState();
+      renderTracker();
+    }
+
+    function renderTracker() {
+      const todayStr = formatDate(new Date());
+      const selectedStr = formatDate(selectedDate);
+      const baseMonday = getMonday(new Date());
+      baseMonday.setDate(baseMonday.getDate() + (weekOffset * 7));
+      const weekDays = [];
+      for (let i = 0; i < 7; i++) { const d = new Date(baseMonday); d.setDate(d.getDate() + i); weekDays.push(d); }
+
+      const dayNames = ['M', 'T', 'W', 'T', 'F', 'S', 'S'];
+      const stripContainer = document.getElementById('strip-container');
+      stripContainer.innerHTML = '';
+      weekDays.forEach((d, idx) => {
+        const dStr = formatDate(d); const logged = appData.logs[dStr]; const isSelected = dStr === selectedStr;
+        let bClass = 'day-badge'; let bCont = '-';
+        if (logged !== undefined) { bCont = logged; bClass += logged === 0 ? ' zero-drink' : ' had-drinks'; }
+        if (isSelected) { bClass += ' active-selected'; if (logged === undefined) bCont = '★'; }
+        const col = document.createElement('div');
+        col.className = `strip-col ${isSelected ? 'selected' : ''}`;
+        col.onclick = () => selectDate(dStr);
+        col.innerHTML = `<div class="day-label">${dayNames[idx]}</div><div class="${bClass}">${bCont}</div><div class="selected-indicator"></div>`;
+        stripContainer.appendChild(col);
+      });
+
+      document.getElementById('day-card-title').innerText = selectedStr === todayStr ? 'Today' : selectedDate.toLocaleDateString('en-US', { weekday: 'long' });
+      document.getElementById('day-card-date').innerText = selectedDate.toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' });
+      document.getElementById('stepper-display').innerText = appData.logs[selectedStr] !== undefined ? appData.logs[selectedStr] : 0;
+      document.getElementById('plan-display').innerText = `${appData.plans[selectedStr] || 0} drinks ✏️`;
+
+      let totalD = 0, totalP = 0, dryC = 0, planDry = 0;
+      const bRows = document.getElementById('breakdown-rows'); bRows.innerHTML = '';
+      const fullDayNames = ['MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT', 'SUN'];
+
+      weekDays.forEach((d, idx) => {
+        const dStr = formatDate(d); const drinks = appData.logs[dStr]; const plan = appData.plans[dStr] || 0;
+        totalP += plan; if (plan === 0) planDry++;
+        if (drinks !== undefined) { totalD += drinks; if (drinks === 0) dryC++; }
+
+        let bBg = '#f1f5f9', bCol = 'var(--text-muted)', dVal = '-';
+        if (drinks !== undefined) { dVal = drinks; bBg = drinks === 0 ? 'var(--purple-accent)' : 'var(--primary-accent)'; bCol = 'white'; }
+        else if (dStr === selectedStr) { dVal = '★'; bCol = 'var(--primary-accent)'; }
+
+        const row = document.createElement('div');
+        row.className = `breakdown-row ${dStr === todayStr ? 'current-today' : ''}`;
+        row.innerHTML = `<div class="day-name">${fullDayNames[idx]}</div>
+          <div class="row-counter">
+            <button class="mini-btn" onclick="modifyDrinks(-1, '${dStr}')">−</button>
+            <div class="mini-badge" style="background:${bBg}; color:${bCol};">${dVal}</div>
+            <button class="mini-btn" onclick="modifyDrinks(1, '${dStr}')">+</button>
+          </div>
+          <div class="row-plan" onclick="openSinglePlanModal('${dStr}')">${plan} ✏️</div>`;
+        bRows.appendChild(row);
+      });
+
+      document.getElementById('week-drinks-sum').innerText = totalD;
+      document.getElementById('week-drinks-plan').innerText = `${totalP} drinks PLAN`;
+      document.getElementById('week-dry-sum').innerText = dryC;
+      document.getElementById('week-dry-plan').innerText = `${planDry} dry days PLAN`;
+
+      const circ = 251.2;
+      document.getElementById('drinks-ring').style.strokeDashoffset = circ - (circ * (totalP > 0 ? Math.min(totalD/totalP, 1) : 0));
+      document.getElementById('dry-ring').style.strokeDashoffset = circ - (circ * (planDry > 0 ? Math.min(dryC/planDry, 1) : 0));
+      document.getElementById('drinks-status-badge').innerText = totalD <= totalP ? 'ON TRACK ✓' : 'OVER TARGET';
+      
+      const pDaysPassed = weekDays.filter(d => d <= new Date()).length;
+      document.getElementById('dry-status-badge').innerText = dryC >= (planDry - (7 - pDaysPassed)) ? 'ON TRACK ✓' : 'NEEDS FOCUS';
+      document.getElementById('week-range-label').innerText = `${weekDays[0].toLocaleDateString('en-US', { month: 'short', day: 'numeric' })} - ${weekDays[6].toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}`;
+    }
+
+    function startChallenge(type) {
+      appData.challenge = { active: true, type: type, startDate: formatDate(new Date()) };
+      saveState();
+      renderChallenges();
+    }
+    
+    function quitChallenge() {
+      if(confirm("Are you sure you want to quit this challenge?")) {
+        appData.challenge = null;
+        saveState();
+        renderChallenges();
+      }
+    }
+
+    function renderChallenges() {
+      if (!appData.challenge || !appData.challenge.active) {
+        document.getElementById('chal-selection').style.display = 'block';
+        document.getElementById('chal-active').style.display = 'none';
+        return;
+      }
+      
+      document.getElementById('chal-selection').style.display = 'none';
+      document.getElementById('chal-active').style.display = 'block';
+
+      const chal = appData.challenge;
+      const isWeekNight = chal.type === 'weeknight';
+      const colorHex = isWeekNight ? 'var(--purple-accent)' : 'var(--primary-accent)';
+      const bgHex = isWeekNight ? 'var(--chal-purple-bg)' : 'var(--chal-crimson-bg)';
+      const successClass = isWeekNight ? 'success-purple' : 'success-crimson';
+      
+      document.getElementById('chal-title').innerText = isWeekNight ? 'Week Night Dry' : 'Fully Dry';
+      document.getElementById('chal-badge-icon').innerText = isWeekNight ? '🌙' : '⚡';
+      document.getElementById('chal-badge-icon').style.background = bgHex;
+      
+      const sDate = parseDate(chal.startDate);
+      const eDate = new Date(sDate);
+      eDate.setDate(eDate.getDate() + 29);
+      
+      const sStr = `${sDate.getMonth()+1}/${sDate.getDate()}/${String(sDate.getFullYear()).slice(-2)}`;
+      const eStr = `${eDate.getMonth()+1}/${eDate.getDate()}/${String(eDate.getFullYear()).slice(-2)}`;
+      document.getElementById('chal-dates').innerText = `${sStr} – ${eStr}`;
+      
+      const grid = document.getElementById('chal-grid');
+      grid.innerHTML = `
+        <div class="chal-grid-dayname">M</div>
+        <div class="chal-grid-dayname">T</div>
+        <div class="chal-grid-dayname">W</div>
+        <div class="chal-grid-dayname">T</div>
+        <div class="chal-grid-dayname">F</div>
+        <div class="chal-grid-dayname">S</div>
+        <div class="chal-grid-dayname">S</div>
+      `;
+
+      const startDow = (sDate.getDay() + 6) % 7;
+      for(let i = 0; i < startDow; i++) {
+        grid.innerHTML += `<div class="chal-box empty"></div>`;
+      }
+
+      let successCount = 0;
+      let targetDaysInChallenge = 0;
+      const todayStr = formatDate(new Date());
+      const todayObj = parseDate(todayStr);
+
+      for(let i = 0; i < 30; i++) {
+        const curDate = new Date(sDate);
+        curDate.setDate(curDate.getDate() + i);
+        const curStr = formatDate(curDate);
+        const jsDay = curDate.getDay();
+        const isExempt = isWeekNight && (jsDay === 5 || jsDay === 6);
+        const isLastDay = (i === 29);
+
+        let boxClass = 'chal-box future';
+        let boxText = '';
+
+        if (isExempt) {
+          boxClass = 'chal-box exempt';
+          boxText = '✕';
+        } else {
+          targetDaysInChallenge++;
+          
+          if (curStr === todayStr) {
+            const logged = appData.logs[curStr];
+            if (logged === 0) {
+              successCount++;
+              boxClass = `chal-box ${successClass}`;
+              boxText = isLastDay ? '🏆' : '✓';
+            } else if (logged > 0) {
+              boxClass = 'chal-box fail';
+              boxText = '✕';
+            } else {
+              boxClass = 'chal-box today-pending';
+              boxText = isLastDay ? '🏆' : '★';
+            }
+          } else if (curDate < todayObj) {
+            const logged = appData.logs[curStr];
+            if (logged === 0) {
+              successCount++;
+              boxClass = `chal-box ${successClass}`;
+              boxText = isLastDay ? '🏆' : '✓';
+            } else {
+              boxClass = 'chal-box fail';
+              boxText = '✕';
+            }
+          } else {
+            if (isLastDay) {
+              boxClass = 'chal-box future-trophy';
+              boxText = '🏆';
+            } else {
+              boxClass = 'chal-box future';
+              boxText = '';
+            }
+          }
+        }
+        grid.innerHTML += `<div class="${boxClass}">${boxText}</div>`;
+      }
+
+      const pct = targetDaysInChallenge > 0 ? Math.round((successCount / targetDaysInChallenge) * 100) : 0;
+      document.getElementById('chal-percent').innerText = `${pct}%`;
+      
+      const badge = document.getElementById('chal-badge');
+      badge.style.background = bgHex;
+      badge.style.color = colorHex;
+      badge.innerText = `✓ ${successCount} On Plan`;
+      
+      const arcPath = document.getElementById('chal-arc-path');
+      arcPath.style.stroke = colorHex;
+      const arcLen = 251.3;
+      
+      if (pct === 0) {
+        arcPath.style.opacity = '0';
+        arcPath.style.strokeDashoffset = arcLen;
+      } else {
+        arcPath.style.opacity = '1';
+        arcPath.style.strokeDashoffset = arcLen - (arcLen * (pct / 100));
+      }
+
+      document.getElementById('chal-status-title').innerText = (todayObj > eDate) ? 'CHALLENGE COMPLETED!' : 'CHALLENGE IN PROGRESS';
+    }
+
+    function openSinglePlanModal(dStr) {
+      targetSingleDate = dStr;
+      const d = parseDate(dStr);
+      document.getElementById('singleModalTitle').innerText = `Plan for ${d.toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric' })}`;
+      document.getElementById('singleModalInput').value = appData.plans[dStr] || 0;
+      document.getElementById('singlePlanModal').style.display = 'flex';
+    }
+    function saveSinglePlan() {
+      const v = parseInt(document.getElementById('singleModalInput').value, 10);
+      if (!isNaN(v) && targetSingleDate) { appData.plans[targetSingleDate] = Math.max(0, v); saveState(); }
+      closeModal('singlePlanModal'); renderTracker();
+    }
+    function openWeeklyPlanModal() {
+      const baseM = getMonday(new Date()); baseM.setDate(baseM.getDate() + (weekOffset * 7));
+      tempWeeklyPlans = {};
+      const list = document.getElementById('weekPlanList'); list.innerHTML = '';
+      const dayNames = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
+      for (let i = 0; i < 7; i++) {
+        const d = new Date(baseM); d.setDate(d.getDate() + i); const dStr = formatDate(d);
+        const cur = appData.plans[dStr] || 0; tempWeeklyPlans[dStr] = cur;
+        list.innerHTML += `<div class="week-plan-row">
+          <div><div style="font-weight:800; font-size:14px;">${dayNames[i]}</div><div style="font-size:11px; color:var(--text-muted);">${d.toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}</div></div>
+          <div style="display:flex; align-items:center; gap:10px;">
+            <button class="mini-btn" onclick="adjTemp('${dStr}', -1)">−</button>
+            <span id="t-val-${dStr}" style="font-weight:800; font-size:16px; min-width:24px; text-align:center;">${cur}</span>
+            <button class="mini-btn" onclick="adjTemp('${dStr}', 1)">+</button>
+          </div></div>`;
+      }
+      document.getElementById('weekPlanModal').style.display = 'flex';
+    }
+    function adjTemp(dStr, delta) {
+      tempWeeklyPlans[dStr] = Math.max(0, (tempWeeklyPlans[dStr] || 0) + delta);
+      document.getElementById(`t-val-${dStr}`).innerText = tempWeeklyPlans[dStr];
+    }
+    function saveWeeklyPlan() {
+      Object.keys(tempWeeklyPlans).forEach(k => appData.plans[k] = tempWeeklyPlans[k]);
+      saveState(); closeModal('weekPlanModal'); renderTracker();
+    }
+    function closeModal(id) { document.getElementById(id).style.display = 'none'; }
+    
+    function exportData() {
+      const a = document.createElement('a');
+      a.href = URL.createObjectURL(new Blob([JSON.stringify(appData, null, 2)], { type: 'application/json' }));
+      a.download = `tempo_backup_${formatDate(new Date())}.json`; a.click();
+    }
+    function importData(e) {
+      const file = e.target.files[0];
+      if (!file) return;
+      const reader = new FileReader();
+      reader.onload = function(evt) {
+        try {
+          const parsed = JSON.parse(evt.target.result);
+          if (parsed.logs || parsed.plans) {
+            appData = parsed;
+            saveState();
+            renderTracker();
+            renderChallenges();
+            alert('Tempo data successfully restored!');
+          }
+        } catch(err) { alert('Error reading backup file.'); }
+      };
+      reader.readAsText(file);
+    }
+
+    renderTracker();
+  </script>
+</body>
+</html>
